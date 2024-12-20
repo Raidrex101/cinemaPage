@@ -9,9 +9,10 @@ const directorsSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  bio: String,
-  birthDate: {
-    type: Date
+  tmdbId: {
+    type: Number,
+    required: true,
+    unique: true
   },
   isActive: {
     type: Boolean,
