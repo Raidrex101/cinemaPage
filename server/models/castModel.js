@@ -6,11 +6,12 @@ const castSchema = new mongoose.Schema({
     required: true
   },
   lastName: {
-    type: String,
-    required: true
+    type: String
   },
-  birthDate: {
-    type: Date
+  tmdbId: {
+    type: Number,
+    required: true,
+    unique: true
   },
   isActive: {
     type: Boolean,
