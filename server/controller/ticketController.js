@@ -1,45 +1,60 @@
 import Ticket from '../models/ticketModel.js'
+import Room from '../models/roomModel.js'
 import Movie from '../models/movieModel.js'
 
 // CREATE
 const createTicket = async (req, res) => {
-  const { quantity, seats } = req.body
-  const { customerId, movieId } = req.params
+  const { quantity, seats, functionTime } = req.body
+  const { customerId, movieId, roomId } = req.params
 
   try {
-    // Buscar la película usando _id (enviado como movieId)
+    // the movie exists?
     const movie = await Movie.findById(movieId)
     if (!movie) {
       return res.status(404).json({ message: 'Movie not found' })
     }
-
-    // Verificar si hay suficientes asientos disponibles
-    if (quantity > movie.seatsLeft) {
-      return res.status(400).json({ message: 'Not enough seats available' })
+    // the room exists?
+    const room = await Room.findById(roomId)
+    if (!room) {
+      return res.status(404).json({ message: 'Room not found' })
+    }
+    // finding the speciffic function time for the movie
+    const functionData = room.functionTimes.find(ft => ft.time === functionTime)
+    if (!functionData) {
+      return res.status(404).json({ message: 'Function time not found' })
+    }
+    // the seats are available?
+    if (!seats.every(seat =>
+      room.seats.includes(seat) &&
+      !functionData.occupiedSeats.includes(seat)
+    )) {
+      return res.status(400).json({ message: 'Some seats are not available' })
     }
 
-    // Calcular el precio total
+    const occupiedSeats = functionData.occupiedSeats || []
+    const availableSeats = room.seats.filter(seat => !occupiedSeats.includes(seat)) // filtering theroom.seats that are not in the occupiedSeats
+
+    // the quantity does not exceed the room capacity?
+    if (quantity > availableSeats.length) {
+      return res.status(400).json({ message: 'Not enough seats aviable' })
+    }
+    // calculate the total price of the ticket
     const seatPrice = movie.seatPrice
     const totalValue = seatPrice * quantity
-
-    // Crear el ticket con los campos calculados
+    // creating the new ticket
     const newTicket = await Ticket.create({
       customerId,
       movieId,
+      roomId,
       quantity,
       seatPrice,
       totalValue,
-      functionTime: movie.functionTime,
-      seats
+      seats,
+      functionTime
     })
-
-    if (seats.length !== quantity) { // si la cantidad no es igual a la longitud de los sats solicitados dara error
-      return res.status(400).json({ message: 'The quantity of seats do not match with the quantity of seats requested' })
-    } else {
-      movie.seatsAviable = movie.seatsAviable.filter(seat => !seats.includes(seat)) // se filtran los acientos que no esten en el seats de ticket si se selecciona A1 regresa todos menos A1
-      movie.seatsLeft -= quantity // se resta la cantidad solicitada en el tiquet a los acientos disponibles en seatsLeft de movies
-      await movie.save()
-    }
+    // updating the occupied seats in the specific function time
+    functionData.occupiedSeats.push(...seats)
+    await room.save()
 
     res.status(201).json(newTicket)
   } catch (error) {
@@ -58,6 +73,8 @@ const getMyTickets = async (req, res) => {
       .find({ customerId })
       .populate('customerId', 'firstName lastName')
       .populate('movieId', 'name')
+      .populate('roomId', 'name')
+      .select('quantity seats functionTime totalValue createdAt')
     return res.status(200).json(myTickets)
   } catch (error) {
     res.status(400).json({ message: error.message })
