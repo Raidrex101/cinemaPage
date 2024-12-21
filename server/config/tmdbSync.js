@@ -121,7 +121,9 @@ const syncGenresAndMovies = async () => {
         const newMovie = await Movie.create({ // if the movie does not exist in our db it is created
           tmdbId: movie.id,
           name: movie.title,
-          genre: genreModels.map((g) => g._id),
+          genre: genreModels
+            .filter((g) => movie.genre_ids.includes(g.tmdbId))
+            .map((g) => g._id),
           releaseDate: movie.release_date,
           director: directorModel.map((d) => d._id),
           cast: castModel.map((c) => c._id),
