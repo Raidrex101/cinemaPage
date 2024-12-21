@@ -19,6 +19,7 @@ const axiosInstance = axios.create({
 
 const syncGenresAndMovies = async () => {
   try {
+    const syncedMovies = []
     // Getting Genres from TMDB
     const genreResponse = await axiosInstance.get('/genre/movie/list', {
       params: { language: 'es-MX' }
@@ -43,7 +44,7 @@ const syncGenresAndMovies = async () => {
     const moviesResponse = await axiosInstance.get('/movie/now_playing', {
       params: { language: 'es-MX', page: 1 }
     })
-    const movies = moviesResponse.data.results
+    const movies = moviesResponse.data?.results || []
     // Generation or getting the cast and directors from TMDB to our database
     await Promise.all(
       movies.map(async (movie) => {
@@ -59,7 +60,7 @@ const syncGenresAndMovies = async () => {
         ])
 
         const { runtime } = movieDetails.data
-        const { cast, crew } = movieCredits.data
+        const { crew } = movieCredits.data
 
         // processing directors
         const directors = crew.filter((person) => person.job === 'Director')
@@ -81,6 +82,7 @@ const syncGenresAndMovies = async () => {
         )
 
         // processing cast
+        const cast = movieCredits.data.cast || []
         const topCast = cast.slice(0, 5)
         const castMap = new Map()
         const castModel = await Promise.all(
@@ -91,7 +93,9 @@ const syncGenresAndMovies = async () => {
               existingActor ||
               (await Cast.create({
                 firstName: actor.name.split(' ')[0] || actor.name,
-                lastName: actor.name.split(' ').lenght > 1 ? actor.name.split(' ').slice(1).join(' ') : undefined,
+                lastName: actor.name.includes(' ')
+                  ? actor.name.split(' ').slice(1).join(' ')
+                  : '',
                 tmdbId: actor.id
               }))
             castMap.set(actor.id, newActor)
@@ -102,12 +106,10 @@ const syncGenresAndMovies = async () => {
         const existingMovie = await Movie.findOne({ tmdbId: movie.id })
         if (existingMovie) return
 
-        await Movie.create({
+        const newMovie = await Movie.create({
           tmdbId: movie.id,
           name: movie.title,
-          genre: genreModels
-            .filter((genre) => movie.genre_ids.includes(genre.tmdbId))
-            .map((g) => g._id),
+          genre: genreModels.map((g) => g._id),
           releaseDate: movie.release_date,
           director: directorModel.map((d) => d._id),
           cast: castModel.map((c) => c._id),
@@ -118,10 +120,14 @@ const syncGenresAndMovies = async () => {
           overview: movie.overview,
           poster: movie.poster_path ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` : null
         })
+
+        syncedMovies.push(newMovie)
       })
     )
+    return syncedMovies
   } catch (error) {
     console.error('Error syncing the movie:', error)
+    return []
   }
 }
 
