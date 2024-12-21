@@ -126,7 +126,7 @@ const getAllMovies = async (req, res) => {
       .populate('director', 'firstName lastName bio')
       .populate('cast', 'firstName lastName')
       .populate('genre', 'name')
-      .populate('Room', 'name seats occupiedSeats functionTimes')
+      .populate('rooms', 'name seats occupiedSeats functionTimes')
     res.status(200).json(movies)
   } catch (error) {
     res
