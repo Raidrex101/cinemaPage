@@ -5,7 +5,7 @@ import { isCustomer } from '../middlewares/isCustomer.js'
 
 const ticketRoutes = express.Router()
 
-ticketRoutes.post('/customer/:customerId/movie/:movieId', isAuth, isCustomer, createTicket)
+ticketRoutes.post('/:customerId/:roomId/:movieId', isAuth, isCustomer, createTicket)
 ticketRoutes.get('/:customerId', isAuth, isCustomer, getMyTickets)
 
 export default ticketRoutes
