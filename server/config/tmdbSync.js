@@ -26,6 +26,11 @@ const syncGenresAndMovies = async () => {
     })
 
     const genres = genreResponse.data.genres
+    if (!genres || genres.length === 0) {
+      console.error('No genres fetched from TMDB. Aborting synchronization.')
+      return []
+    }
+
     const genreMap = new Map()
     // Generation or getting the genres from TMDB to our database
     const genreModels = await Promise.all(
@@ -45,6 +50,10 @@ const syncGenresAndMovies = async () => {
       params: { language: 'es-MX', page: 1 }
     })
     const movies = moviesResponse.data?.results || []
+    if (!movies || movies.length === 0) {
+      console.error('No movies fetched from TMDB. Aborting synchronization.')
+      return []
+    }
     // Generation or getting the cast and directors from TMDB to our database
     await Promise.all(
       movies.map(async (movie) => {
@@ -104,9 +113,12 @@ const syncGenresAndMovies = async () => {
         )
 
         const existingMovie = await Movie.findOne({ tmdbId: movie.id })
-        if (existingMovie) return
+        if (existingMovie) {
+          syncedMovies.push(existingMovie) // if the movie exist in our db its added to syncedMovies
+          return // preventing the creation of the existing movie
+        }
 
-        const newMovie = await Movie.create({
+        const newMovie = await Movie.create({ // if the movie does not exist in our db it is created
           tmdbId: movie.id,
           name: movie.title,
           genre: genreModels.map((g) => g._id),
