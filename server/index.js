@@ -4,6 +4,7 @@ import userRoutes from './routes/userRoutes.js'
 import movieRoutes from './routes/movieRoutes.js'
 import ticketRoutes from './routes/TicketRoutes.js'
 import authRoutes from './routes/authRoutes.js'
+import roomRoutes from './routes/roomRoutes.js'
 import { syncronization } from './config/syncSchedule.js'
 
 const PORT = process.env.PORT || 3000
@@ -20,6 +21,7 @@ api.use('/api/v1/movies', movieRoutes)
 api.use('/api/v1/tickets', ticketRoutes)
 api.use('/api/v1', authRoutes)
 api.use('/api/v1', userRoutes)
+api.use('/api/v1/rooms', roomRoutes)
 
 connect().then(() => {
   api.listen(PORT, () => {
