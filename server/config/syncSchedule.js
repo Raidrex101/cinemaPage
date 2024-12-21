@@ -6,13 +6,18 @@ import Movie from '../models/movieModel.js'
 const syncronization = () => {
   cron.schedule('0 0 1 * *', async () => { // cron will schedule TMDB calls to now_playing list
     try {
-      const activeMovies = await Movie.find({ isActive: true })// find all active movies
+      const activeMovies = await Movie.find({ isActive: true })// find all active movies in the DB
 
       const syncMovies = await syncGenresAndMovies() // synchronize al the needed data from TMDB
 
-      const syncNames = new Set(syncMovies.map(movie => movie.name.toLowerCase())) // maping the names the synchronized movies
+      if (!syncMovies || syncMovies.length === 0) {
+        console.error('Syncronization returned no movies. Skipping update.')
+        return
+      }
 
-      const inactiveMovies = activeMovies.filter(movie => !syncNames.has(movie.name.toLowerCase())) // Filter movies in the DB but not in the synchronized movies from TMDB
+      const syncIds = new Set(syncMovies.map(movie => movie.tmdbId)) // maping the ids of the synchronized movies in a new set
+
+      const inactiveMovies = activeMovies.filter(movie => !syncIds.has(movie.tmdbId)) // Filter movies in the DB but not in the synchronized movies from TMDB
 
       if (inactiveMovies.length > 0) {
         await Movie.updateMany( // Update isActive to false for movies not in synchronized movies
