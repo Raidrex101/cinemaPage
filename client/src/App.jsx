@@ -1,7 +1,7 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from './pages/Home'
-import Login from './pages/login'
+import Login from './pages/Login'
 import Register from './pages/Register'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
