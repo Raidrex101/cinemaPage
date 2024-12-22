@@ -6,12 +6,15 @@ import ticketRoutes from './routes/TicketRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import roomRoutes from './routes/roomRoutes.js'
 import { syncronization } from './config/syncSchedule.js'
+import cors from 'cors'
 
 const PORT = process.env.PORT || 3000
 
 const api = express()
 
 api.use(express.json())
+
+api.use(cors())
 syncronization()
 
 // rutas
