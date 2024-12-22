@@ -1,14 +1,37 @@
-import './App.css'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Home from './pages/Home'
+import Nav from './components/Nav';
 import Login from './pages/Login'
+import MoviePage from "./pages/MoviePage";
 import Register from './pages/Register'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { AuthProvider } from './context/authContext'
+import { MovieProvider } from './context/movieContext';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import './App.css'
 
+
+const MainLayout = () => {
+  return (
+    <>
+      <Nav />
+      <main>
+        <Outlet />
+      </main>
+    </>
+  );
+};
 function App() {
   const router = createBrowserRouter([
-    { path: '/', element: <Home /> },
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: [
+        { path: '/', element: <Home /> },
+        { path: '/movie/:id', element: <MoviePage /> },
+      ],
+    },
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
   ]);
@@ -17,7 +40,11 @@ function App() {
 
   return (
     <>
+      <MovieProvider>
+      <AuthProvider>
       <RouterProvider router={router} />
+      </AuthProvider>
+      </MovieProvider>
     </>
   )
 }
