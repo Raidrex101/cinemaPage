@@ -46,6 +46,7 @@ const login = async (req, res) => {
     const payload = {
       _id: user._id,
       email: user.email,
+      name: user.firstName + ' ' + user.lastName,
       role: user.role,
       iat: Math.floor(Date.now() / 1000), // Fecha de creación del token en segundos
       exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7) // Fecha de expiración del token en 7 días
