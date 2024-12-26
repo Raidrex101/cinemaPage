@@ -1,5 +1,5 @@
 .navbg {
-    background-color: #08235c;
+    background-color: rgb(6, 17, 43)
 }
 
 .cardwidth {
@@ -8,4 +8,14 @@
 
 .custommt {
     margin-top: 6rem;
+}
+
+.carouselbg {
+    background: linear-gradient(53.09deg, rgb(27, 79, 193) 2.64%, rgb(6, 17, 43) 61.29%);
+    max-height: 550px;
+    object-fit: contain;
+}
+
+.carouseltxt {
+    width:20vw;
 }
