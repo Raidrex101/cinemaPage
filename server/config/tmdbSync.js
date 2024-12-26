@@ -132,7 +132,7 @@ const syncGenresAndMovies = async () => {
           rating: movie.vote_average,
           seatPrice: 10,
           overview: movie.overview,
-          poster: movie.poster_path ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` : null
+          poster: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : null
         })
 
         syncedMovies.push(newMovie)
