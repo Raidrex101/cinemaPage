@@ -1,12 +1,14 @@
 import { MovieContext } from "../context/movieContext"
 import { useContext } from "react"
 import MovieCards from "../components/MovieCards"
+import Carrousel from "../components/Carrousel"
 const Home = () => {
   const { movies } = useContext(MovieContext)
   
   return (
     <div className="container-fluid text-center custommt">
-    <section className="d-flex flex-wrap justify-content-evenly pt-auto">
+    <Carrousel />
+    <section className="d-flex flex-wrap justify-content-evenly">
     {movies.length > 0 ? (
       movies.map((movie) => (
         <MovieCards
