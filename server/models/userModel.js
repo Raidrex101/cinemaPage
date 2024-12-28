@@ -1,10 +1,6 @@
 import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema({
-  dni: {
-    type: String,
-    required: true
-  },
   firstName: {
     type: String,
     required: true
@@ -15,17 +11,12 @@ const userSchema = new mongoose.Schema({
   },
   birthDate: {
     type: Date,
-    required: true
+    default: undefined
   },
   role: {
     type: String,
     enum: ['ADMIN', 'EMPLOYEE', 'CUSTOMER'],
     default: 'CUSTOMER'
-  },
-  phoneNumber: {
-    type: String,
-    required: true,
-    unique: true
   },
   email: {
     type: String,
@@ -35,14 +26,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  },
-  userName: {
-    type: String,
-    required: true,
-    unique: true,
-    match: /^[a-zA-Z0-9]+$/i,
-    minlength: 8,
-    maxlength: 20
   },
   isActive: {
     type: Boolean,
