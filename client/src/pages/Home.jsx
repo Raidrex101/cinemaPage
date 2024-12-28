@@ -6,7 +6,7 @@ const Home = () => {
   const { movies } = useContext(MovieContext)
   
   return (
-    <div className="container-fluid text-center custommt">
+    <div className="text-center custommt ">
     <Carrousel />
     <section className="d-flex flex-wrap justify-content-evenly">
     {movies.length > 0 ? (
