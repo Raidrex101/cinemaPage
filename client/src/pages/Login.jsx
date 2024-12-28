@@ -12,7 +12,7 @@ const Login = () => {
   
 
   useEffect(() => {
-    if (autenticated) {
+    if (autenticated === true) {
       navigate('/')
     }
     
