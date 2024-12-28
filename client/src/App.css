@@ -1,3 +1,10 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
 .navbg {
     background-color: rgb(6, 17, 43)
 }
@@ -7,7 +14,8 @@
 }
 
 .custommt {
-    margin-top: 6rem;
+    margin-top: 4.5rem;
+    width: 100vw;
 }
 
 .carouselbg {
@@ -18,4 +26,13 @@
 
 .carouseltxt {
     width:20vw;
+}
+
+.logincard {
+    background-color: rgb(8, 40, 91);
+    color: white;
+    width: 48vw;
+    height: 89vh;
+    border-radius: 50px;
+    padding-top: 13rem;
 }
