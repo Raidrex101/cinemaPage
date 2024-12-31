@@ -3,7 +3,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     overflow-x: hidden;
-}
+}  
 
 .navbg {
     background-color: rgb(6, 17, 43)
@@ -20,13 +20,15 @@ body {
 
 .carouselbg {
     background: linear-gradient(53.09deg, rgb(27, 79, 193) 2.64%, rgb(6, 17, 43) 61.29%);
-    max-height: 550px;
+}
+
+.carouselimg {
+    width: 100%;
+    height: 500px;
     object-fit: contain;
 }
 
-.carouseltxt {
-    width:20vw;
-}
+
 
 .logincard {
     background-color: rgb(8, 40, 91);
@@ -35,4 +37,157 @@ body {
     height: 89vh;
     border-radius: 50px;
     padding-top: 13rem;
+}
+
+/* for mobile devices */
+
+@media (max-width: 576px) {
+    .carouselbg {
+        height: 350px;
+    }
+
+    .carouselname {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        width: 50%;
+    }
+
+    .carouselimg {
+        width: 140%;
+        height: 340px;
+        object-fit: contain;
+    }
+
+    .carousertxt {
+        font-size: 12px;
+        width: 20vw;
+    }
+
+    .carouselp {
+        width: 12rem;
+        height: 6rem; 
+    }
+
+    .carouselbtn {
+        width: 7rem;
+        height: 3rem;
+        margin-right: 13rem;
+    }
+
+    .ctmtruncate {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      
+}
+
+/* for tablets or medium screens */
+
+@media (min-width: 576px) and (max-width: 768px) {
+    .carouselbg {
+        max-height: 500px;
+    }
+
+    .carouseltxt {
+        width: 50%;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .carouselimg {
+        width: 150%;
+        height: 400px;
+    }
+    
+    .carouselname {
+        margin: 2rem;
+        width: 50%;
+    }
+    
+    .carouselp {
+        width: 12rem;
+        height: 9rem;
+        margin-left: 1rem;
+        text-align: justify;
+    }
+
+    .carouselbtn {
+        width: 7rem;
+        height: 3rem;
+        margin-right: 6rem;
+    }
+
+    .ctmtruncate {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 6;
+        line-clamp: 6;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+
+/* for large screens */
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .carouselbg {
+        max-height: 500px;
+    }
+
+    .carouseltxt {
+        width: 40%;
+    }
+
+    .carouselimg {
+        width: 145%;
+        height: 400px;
+    }
+    
+    .carouselname {
+        margin: 2rem;
+        padding-left: 2rem;
+    }
+    
+    .carouselp {
+        width: 15rem;
+        height: 9rem;
+        margin-left: 4rem;
+        text-align: justify;
+    }
+
+    .ctmtruncate {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 6;
+        line-clamp: 6;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+}
+
+/* for extra large screens */
+
+@media (min-width: 992px) {
+    .carouselbg {
+        height: 530px;
+    }
+
+    .carouseltxt {
+        width: 20vw;
+        padding-bottom: 6rem;
+    }
+
+    .ctmtruncate {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 7;
+        line-clamp: 7;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 }

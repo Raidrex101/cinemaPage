@@ -54,7 +54,7 @@ const Login = () => {
         <div className="container-fluid d-flex ">
           <div className="d-flex m-5">
             <div className="text-center logincard shadow-lg">
-              <h1 className="mb-5 mt-5">Cinema Page</h1>
+              <h1 className="mb-5">Cinema Page</h1>
               <h1 className="mb-5 mt-5">Welcome</h1>
               <h1 className="text-secondary">Want to login or register?</h1>
             </div>
