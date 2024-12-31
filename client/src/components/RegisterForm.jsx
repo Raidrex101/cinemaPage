@@ -15,7 +15,7 @@ const RegisterForm = ({ register, handleSubmit, errors, registerOnSubmit, setBut
 
       <div className="d-flex flex-column m-5">
         <div className="text-center logincard shadow-lg">
-          <h1 className="mb-5 mt-5">Cinema Page</h1>
+          <h1 className="mb-5">Cinema Page</h1>
           <h1 className="mb-5 mt-5">Welcome</h1>
           <h1 className="text-secondary">
             Please register your account

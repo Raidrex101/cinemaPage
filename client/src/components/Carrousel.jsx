@@ -7,7 +7,6 @@ const Carrousel = () => {
 
     const selectedMovieNames = ['Sonic 3 : La película', 'Mufasa: El rey león', 'Moana 2', 'Wicked']
     const selectedMovies = movies.filter(movie => selectedMovieNames.includes(movie.name))
-    console.log( 'peliculas para el carrusel',selectedMovies);
     
   return (
     <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">
@@ -30,19 +29,17 @@ const Carrousel = () => {
             key={movie._id}
             className={`carousel-item ${index === 0 ? "active" : ""}`}
           >
-            <div className="d-block">
+            <div className="d-block carouselbg pt-3">
             <img
               src={movie.poster}
-              className="d-block w-100 carouselbg"
+              className="d-block carouselimg"
               alt={movie.name}
             />
-            </div>
-            <div className="container">
-              <div className="carousel-caption text-end carouseltxt">
-                <h1 className="fw-bold">{movie.name}</h1>
-                <p>{movie.overview}</p>
+              <div className="carousel-caption carouseltxt">
+                <h1 className="fw-bold carouselname">{movie.name}</h1>
+                <p className="carouselp ctmtruncate">{movie.overview}</p>
                 <p>
-                  <Link className="btn btn-lg btn-primary" to={`/movie/${movie._id}`}>
+                  <Link className="btn btn-lg btn-primary carouselbtn" to={`/movie/${movie._id}`}>
                     Ver más
                   </Link>
                 </p>
