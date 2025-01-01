@@ -51,18 +51,18 @@ const Login = () => {
   return (
     <>
       {buttonName === null && (
-        <div className="container-fluid d-flex ">
-          <div className="d-flex m-5">
-            <div className="text-center logincard shadow-lg">
+        <div className="container d-flex">
+          <div className=" m-5">
+            <div className="text-center logincard">
               <h1 className="mb-5">Cinema Page</h1>
               <h1 className="mb-5 mt-5">Welcome</h1>
               <h1 className="text-secondary">Want to login or register?</h1>
             </div>
           </div>
 
-          <div className="d-flex flex-column p-5 ml-5 mb-5 justify-content-center align-items-center text-center ">
-            <div>
-              <h1>If you already have an account</h1>
+          <div className="d-flex flex-column text-center loginbtn">
+            <div className="text-center">
+              <h1>Have an account?</h1>
             </div>
             <button
               className="btn btn-primary fw-bold p-3 rounded-4 m-3"

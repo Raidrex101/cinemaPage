@@ -28,17 +28,6 @@ body {
     object-fit: contain;
 }
 
-
-
-.logincard {
-    background-color: rgb(8, 40, 91);
-    color: white;
-    width: 48vw;
-    height: 89vh;
-    border-radius: 50px;
-    padding-top: 13rem;
-}
-
 /* for mobile devices */
 
 @media (max-width: 576px) {
@@ -82,6 +71,26 @@ body {
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
+      .logincard {
+        background-color: rgb(8, 40, 91);
+        color: white;
+        height: 25%;
+        width: 17rem;
+        margin-bottom: 30rem;
+        border-radius: 50px;
+    }
+
+    .logincard h1 {
+        font-size: 1.5rem;
+        margin: 1rem 0rem !important;
+    }
+
+    .loginbtn {
+        min-width: 10rem;
+        padding: 15rem 4rem 0 4rem;
+        position: absolute;
+    }
       
 }
 
@@ -129,6 +138,24 @@ body {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+    .logincard {
+        background-color: rgb(8, 40, 91);
+        color: white;
+        width: 45vw;
+        height: 40vh;
+        border-radius: 50px;
+        margin-top: 3rem;
+        padding-top: 3rem;
+    }
+
+    .loginbtn {
+        min-width: 11rem;
+        font-size: 1.5rem;
+        padding: 5.5rem 0.2rem;
+    }
+
+    
 }
 
 
@@ -168,6 +195,23 @@ body {
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
+      .logincard {
+        background-color: rgb(8, 40, 91);
+        color: white;
+        width: 45vw;
+        height: 58vh;
+        border-radius: 50px;
+        margin-top: 3rem;
+        padding-top: 7rem;
+    }
+
+    .loginbtn {
+        min-width: 20rem;
+        font-size: 1.5rem;
+        padding: 9rem 2rem;
+        margin-bottom: 1rem;
+    }
 }
 
 /* for extra large screens */
@@ -190,4 +234,20 @@ body {
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
+      .logincard {
+        background-color: rgb(8, 40, 91);
+        color: white;
+        width: 48vw;
+        height: 89vh;
+        border-radius: 50px;
+        padding-top: 13rem;
+    }
+
+    .loginbtn {
+        min-width: 30rem;
+        font-size: 1.5rem;
+        padding: 14rem 7rem;
+        margin-bottom: 1rem;
+    }
 }

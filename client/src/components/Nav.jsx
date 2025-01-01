@@ -9,7 +9,7 @@ const Nav = () => {
   
   const navigate = useNavigate();
   return (
-    <nav className="navbar navbar-expand-lg fixed-top py-3 navbg">
+    <nav className="navbar navbar-expand-sm fixed-top py-3 navbg">
       <div className="container-fluid">
         <a className="navbar-brand text-white" href="#">
           Cinema Page
@@ -52,16 +52,6 @@ const Nav = () => {
               </>
             )}
           </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-4"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-primary rounded-3" type="submit">
-              <i className="bi bi-search"> </i>
-            </button>
             <button
               className="btn btn-primary rounded-3 mx-3"
               type="submit"
@@ -69,7 +59,6 @@ const Nav = () => {
             >
               <i className="bi bi-person"> </i>
             </button>
-          </form>
         </div>
       </div>
     </nav>
