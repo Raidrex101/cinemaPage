@@ -28,6 +28,7 @@ body {
     object-fit: contain;
 }
 
+
 /* for mobile devices */
 
 @media (max-width: 576px) {
@@ -91,6 +92,15 @@ body {
         padding: 15rem 4rem 0 4rem;
         position: absolute;
     }
+
+    .loginform {
+        padding: 16rem 2rem 0 0;
+    
+    }
+
+    .loginform h1 {
+        font-size: 1.3rem;
+    }
       
 }
 
@@ -149,13 +159,25 @@ body {
         padding-top: 3rem;
     }
 
+    .logincard h1 {
+        font-size: 1.5rem;
+        margin: 1rem 0rem !important;
+    }
+
     .loginbtn {
         min-width: 11rem;
         font-size: 1.5rem;
-        padding: 5.5rem 0.2rem;
+        padding: 3rem 0 0 1rem;
     }
 
-    
+    .loginform {
+        width: 36vw;
+        margin: 6rem 1rem 0 0;
+    }
+
+    .loginform h1 {
+        font-size: 1rem;
+    }
 }
 
 
@@ -203,7 +225,7 @@ body {
         height: 58vh;
         border-radius: 50px;
         margin-top: 3rem;
-        padding-top: 7rem;
+        padding-top: 5.5rem;
     }
 
     .loginbtn {
@@ -211,6 +233,15 @@ body {
         font-size: 1.5rem;
         padding: 9rem 2rem;
         margin-bottom: 1rem;
+    }
+
+    .loginform {
+        width: 20rem;
+        padding-top: 8rem;
+    }
+    
+    .loginform h1 {
+        font-size: 1.7rem;
     }
 }
 
@@ -241,13 +272,23 @@ body {
         width: 48vw;
         height: 89vh;
         border-radius: 50px;
-        padding-top: 13rem;
+        padding-top: 11rem;
     }
 
     .loginbtn {
         min-width: 30rem;
         font-size: 1.5rem;
-        padding: 14rem 7rem;
+        padding: 11rem 7rem;
         margin-bottom: 1rem;
+    }
+
+    .loginform {
+        width: 40rem;
+        font-size: 1.6rem;
+        padding:10rem 14rem 0 0;
+    }
+
+    .loginform h1 {
+        font-size: 2.2rem;
     }
 }
