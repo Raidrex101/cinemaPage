@@ -9,7 +9,7 @@ const Nav = () => {
   
   const navigate = useNavigate();
   return (
-    <nav className="navbar navbar-expand-sm fixed-top py-3 navbg">
+    <nav className="navbar navbar-expand fixed-top py-3 navbg">
       <div className="container-fluid">
         <a className="navbar-brand text-white" href="#">
           Cinema Page
