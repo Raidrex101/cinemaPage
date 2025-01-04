@@ -93,6 +93,17 @@ body {
         position: absolute;
     }
 
+    .registerform {
+        min-width: 10rem;
+        padding: 15rem 4rem 0 4rem;
+        position: absolute;
+    }
+
+    .registerform h1 {
+        font-size: 1.5rem;
+        margin: 1rem 0rem!important;
+    }
+
     .loginform {
         padding: 16rem 2rem 0 0;
     
@@ -170,6 +181,16 @@ body {
         padding: 3rem 0 0 1rem;
     }
 
+    .registerform {
+        min-width: 11rem;
+        font-size: 1.5rem;
+        padding: 5rem 0 0 1rem;
+    }
+
+    .registerform h1 {
+        font-size: 1.4rem;
+    }
+
     .loginform {
         width: 36vw;
         margin: 6rem 1rem 0 0;
@@ -235,6 +256,17 @@ body {
         margin-bottom: 1rem;
     }
 
+    .registerform {
+        min-width: 20rem;
+        font-size: 1.5rem;
+        padding: 6rem 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .registerform h1 {
+        font-size: 1.5rem;
+    }
+
     .loginform {
         width: 20rem;
         padding-top: 8rem;
@@ -279,6 +311,13 @@ body {
         min-width: 30rem;
         font-size: 1.5rem;
         padding: 11rem 7rem;
+        margin-bottom: 1rem;
+    }
+
+    .registerform {
+        min-width: 30rem;
+        font-size: 1.5rem;
+        padding: 5rem 7rem;
         margin-bottom: 1rem;
     }
 

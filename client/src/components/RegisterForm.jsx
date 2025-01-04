@@ -28,7 +28,7 @@ const RegisterForm = ({
           </div>
         </div>
 
-        <div className="d-flex text-center loginbtn ">
+        <div className="d-flex text-center registerform ">
           <form onSubmit={handleSubmit(registerOnSubmit)}>
             <div className="d-flex flex-column">
               <div>
