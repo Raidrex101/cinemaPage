@@ -6,8 +6,7 @@ const directorsSchema = new mongoose.Schema({
     required: true
   },
   lastName: {
-    type: String,
-    required: true
+    type: String
   },
   tmdbId: {
     type: Number,
