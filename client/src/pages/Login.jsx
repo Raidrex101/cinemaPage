@@ -8,15 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const navigate = useNavigate();
   const [buttonName, setButtonName] = useState(null);
-  const { login, autenticated } = useAuthContext();
-  
-
-  useEffect(() => {
-    if (autenticated === true) {
-      navigate('/')
-    }
-    
-  }, [autenticated, navigate])
+  const { login } = useAuthContext();
 
   const {
     register,

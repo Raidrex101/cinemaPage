@@ -55,7 +55,7 @@ const Nav = () => {
             <button
               className="btn btn-primary rounded-3 mx-3"
               type="submit"
-              onClick={() => navigate("/login")}
+              onClick={!autenticated ?() => navigate("/login") : (null)}
             >
               <i className="bi bi-person"> </i>
             </button>
