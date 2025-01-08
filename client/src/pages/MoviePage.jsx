@@ -35,10 +35,10 @@ const MoviePage = () => {
             </div>
           </section>
 
-          <div className="container mt-5">
+          <div className=" mt-4">
             <div className="row">
               
-              <div className="col-md-6 bg-dark bg-opacity-25 p-4 text-center rounded-3">
+              <div className="col-md-6 bg-secondary bg-opacity-50 p-5 text-center rounded-3">
                 <h1>Cast</h1>
                 <ul className="list-unstyled">
                   {movie.cast.map((actor) => (
@@ -49,7 +49,7 @@ const MoviePage = () => {
                 </ul>
               </div>
 
-              <div className="col-md-6 bg-secondary bg-opacity-25 p-4 text-center rounded-3">
+              <div className=" col-md-6 bg-secondary bg-opacity-50 p-5 text-center rounded-3">
                 <h1>Details</h1>
                 <p>Release Date: {new Date(movie.releaseDate).toLocaleDateString()}</p>
                 <p>Genre: {' '}
@@ -60,7 +60,7 @@ const MoviePage = () => {
                         </span>
                     ))}
                 </p>
-                <p>Rating: {movie.rating}</p>
+                <p>Rating: {movie.rating} Runtime: {movie.durationMins} minutes</p>
               </div>
             </div>
           </div>
