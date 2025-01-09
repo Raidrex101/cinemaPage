@@ -38,6 +38,16 @@ body {
     left: 0;
 }
 
+.svg-active {
+    filter: none;
+  }
+  
+  .svg-inactive {
+    filter: grayscale(1);
+    opacity: 0.5;
+  }
+  
+
 
 /* for mobile devices */
 

@@ -4,6 +4,7 @@ import Nav from './components/Nav';
 import Login from './pages/Login'
 import MoviePage from "./pages/MoviePage";
 import Register from './pages/Register'
+import BuyTickets from "./pages/BuyTickets";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { AuthProvider } from './context/authContext'
@@ -30,10 +31,12 @@ function App() {
       children: [
         { path: '/', element: <Home /> },
         { path: '/movie/:id', element: <MoviePage /> },
+        { path: '/buy-tickets/:movieId', element: <BuyTickets /> },
       ],
     },
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
+    
   ]);
 
 
