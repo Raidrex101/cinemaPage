@@ -24,7 +24,7 @@ const RegisterForm = ({
           <div className="text-center logincard">
             <h1 className="mb-5 pt-3">Cinema Page</h1>
             <h1 className="mb-5 mt-5">Welcome</h1>
-            <h1 className="text-secondary">Please login</h1>
+            <h1 className="text-secondary">Please register</h1>
           </div>
         </div>
 
@@ -43,6 +43,7 @@ const RegisterForm = ({
                 name="firstName"
                 type="text"
                 className="form-control"
+                {...register("firstName", { required: true })}
                 />
                 {errors.firstName && (
                   <p className="text-danger">First name is required</p>
@@ -55,6 +56,7 @@ const RegisterForm = ({
                 name="lastName"
                 type="text"
                 className="form-control"
+                {...register("lastName", { required: true })}
                 />
                 {errors.lastName && (
                   <p className="text-danger">First name is required</p>
@@ -93,7 +95,7 @@ const RegisterForm = ({
                   className="btn btn-outline-secondary fw-bold p-3 rounded-4 m-3"
                   type="submit"
                 >
-                  Login
+                  Register
                 </button>
               </div>
             </div>

@@ -4,7 +4,7 @@ import { useAuthContext } from "../hooks/useAuth";
 import { userLogin, userRegister } from "../services/authService";
 import LoginFomr from "../components/LoginFomr";
 import RegisterForm from "../components/RegisterForm";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const [buttonName, setButtonName] = useState(null);
@@ -21,24 +21,24 @@ const Login = () => {
       const response = await userLogin(data);
       if (response.status === 200) {
         login(response.data.token);
-        navigate('/');
-        
+        navigate("/");
       }
     } catch (error) {
-      console.log('An error ocurred', error);
+      console.log("An error ocurred", error);
     }
   };
 
   const registerOnSubmit = async (data) => {
     try {
       const response = await userRegister(data);
-      if (response.status === 201){
-        setButtonName("login")
+      
+      if (response.status === 201) {
+        setButtonName("login");
       }
     } catch (error) {
-      console.error('An error ocurred', error);
+      console.error("An error ocurred", error);
     }
-  }
+  };
 
   return (
     <>
@@ -74,13 +74,13 @@ const Login = () => {
       )}
 
       {buttonName === "login" && (
-       <LoginFomr
-        loginOnSubmit={loginOnSubmit}
-        handleSubmit={handleSubmit}
-        register={register}
-        errors={errors}
-        setButtonName={setButtonName}
-         />
+        <LoginFomr
+          loginOnSubmit={loginOnSubmit}
+          handleSubmit={handleSubmit}
+          register={register}
+          errors={errors}
+          setButtonName={setButtonName}
+        />
       )}
 
       {buttonName === "register" && (
@@ -88,7 +88,7 @@ const Login = () => {
           registerOnSubmit={registerOnSubmit}
           handleSubmit={handleSubmit}
           register={register}
-          errors={errors} 
+          errors={errors}
           setButtonName={setButtonName}
         />
       )}
