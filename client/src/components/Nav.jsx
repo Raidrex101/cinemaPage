@@ -11,13 +11,18 @@ const Nav = () => {
   return (
     <nav className="navbar navbar-expand fixed-top py-3 navbg">
       <div className="container-fluid">
-        <a className="navbar-brand text-white" href="#">
+        <Link
+        to="/"
+        className="navbar-brand text-white">
           Cinema Page
-        </a>
+        </Link>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <a className="nav-link text-white fw-bold mx-3">Home</a>
+              <Link to="/"
+              className="nav-link text-white fw-bold mx-2">
+                Home
+                </Link>
             </li>
             {autenticated ? (
               <>
@@ -39,13 +44,13 @@ const Nav = () => {
                   <Link
                     to={"/food"}
                     className="nav-link text-white fw-bold"
-                    href="#"
+                    
                   >
                     Food
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white fw-bold mx-3" href="#">
+                  <a className="nav-link text-white fw-bold mx-3">
                     Promo
                   </a>
                 </li>

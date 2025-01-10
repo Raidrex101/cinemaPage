@@ -1,11 +1,11 @@
 import { MovieContext } from "../context/movieContext"
 import { useContext } from "react"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Carrousel = () => {
     const { movies } = useContext(MovieContext)
-
-    const selectedMovieNames = ['Sonic 3 : La película', 'Mufasa: El rey león', 'Moana 2', 'Wicked']
+    const navigate = useNavigate()
+    const selectedMovieNames = ['Sonic 3: La Película', 'Mufasa: El rey león', 'Moana 2', 'Wicked']
     const selectedMovies = movies.filter(movie => selectedMovieNames.includes(movie.name))
     
   return (
@@ -31,6 +31,8 @@ const Carrousel = () => {
           >
             <div className="d-block carouselbg pt-3">
             <img
+              role='button'
+              onClick={() => navigate(`/buy-tickets/${movie._id}`)}
               src={movie.poster}
               className="d-block carouselimg"
               alt={movie.name}

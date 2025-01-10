@@ -18,9 +18,9 @@ const MoviePage = () => {
             <div
               className='movie-background'
               style={{ backgroundImage: `url(${movie.poster})` }}
-            ></div>
+            >
+            </div>
 
-            {/* Contenido superpuesto */}
             <div className="position-relative z-3 d-flex align-items-center justify-content-center h-100 text-white">
               <img className="h-50 m-5" src={movie.poster} alt={movie.name} />
               <div className="bg-dark bg-opacity-50 p-4 rounded-4 text-center w-50">
@@ -38,7 +38,7 @@ const MoviePage = () => {
           <div className=" mt-4">
             <div className="row">
               
-              <div className="col-md-6 bg-secondary bg-opacity-50 p-5 text-center rounded-3">
+              <div className="col-md-6 bg-secondary bg-opacity-50 p-5 text-center rounded-3 fw-bold">
                 <h1>Cast</h1>
                 <ul className="list-unstyled">
                   {movie.cast.map((actor) => (
@@ -49,7 +49,7 @@ const MoviePage = () => {
                 </ul>
               </div>
 
-              <div className=" col-md-6 bg-secondary bg-opacity-50 p-5 text-center rounded-3">
+              <div className=" col-md-6 bg-secondary bg-opacity-50 p-5 text-center rounded-3 fw-bold">
                 <h1>Details</h1>
                 <p>Release Date: {new Date(movie.releaseDate).toLocaleDateString()}</p>
                 <p>Genre: {' '}
