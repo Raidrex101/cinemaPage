@@ -35,7 +35,6 @@ body {
     width: 100%;
     position: absolute;
     top: 4rem;
-    left: 0;
 }
 
 .svg-active {
@@ -45,6 +44,11 @@ body {
   .svg-inactive {
     filter: grayscale(1);
     opacity: 0.5;
+  }
+
+  .ctm-fs {
+    font-size: .8rem;
+    padding: 1px 2.5px 1px 2.5px;
   }
   
 
