@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import MoviePage from "./pages/MoviePage";
 import Register from './pages/Register'
 import BuyTickets from "./pages/BuyTickets";
+import Management from "./pages/Management";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { AuthProvider } from './context/authContext'
@@ -31,6 +32,7 @@ function App() {
       children: [
         { path: '/', element: <Home /> },
         { path: '/movie/:id', element: <MoviePage /> },
+        { path: '/management', element: <Management /> },
         { path: '/buy-tickets/:movieId', element: <BuyTickets /> },
       ],
     },
