@@ -13,7 +13,6 @@ const createMovie = async (req, res) => {
     return res.status(400).json({ message: 'No movie data provided' })
   }
 
-  // validando que director y cast sean un array
   if (!Array.isArray(movieData.director) || movieData.director.length === 0) {
     return res
       .status(400)
