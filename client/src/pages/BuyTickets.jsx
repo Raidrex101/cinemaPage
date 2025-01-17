@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { MovieContext } from "../context/movieContext";
 import { useParams } from "react-router-dom";
 import TicketsForm from "../components/TicketsForm";
-
+import TicketDates from "../components/TicketDates";
 import seatIcon from "../assets/seatIcon.svg";
 import food from "../assets/food.svg";
 
@@ -16,12 +16,15 @@ const BuyTickets = () => {
   console.log("movie", movie);
 
   return (
+    <>
+    {movie ? (
+
     <section className="position-relative vh-100 vw-100">
       <div
         className="movie-background"
         style={{ backgroundImage: `url(${movie.poster})` }}
       >
-        <div className="position-absolute top-0 start-50 translate-middle m-5 bg-transparent shadow-lg align-items-center justify-content-center text-white">
+        <div className="position-absolute top-0 start-50 translate-middle mt-4 bg-transparent shadow-lg align-items-center justify-content-center text-white">
           <div className="fw-bold">
             <span
               className={`fs-4 ${isActive("Schedule") ? "" : "text-secondary"}`}
@@ -73,34 +76,43 @@ const BuyTickets = () => {
       </div>
 
       <div className="position-relative z-3 d-flex align-items-center justify-content-center h-100 text-white">
-        <div className="bg-white p-2 rounded-5 text-center text-dark h-75 w-100 mt-5 shadow">
+        <div className="bg-white p-2 rounded-5 text-center text-dark h-75 mt-5 w-100 shadow">
           <div className="container mt-4">
             <div className="row">
-             
               <div className="col-lg-8">
-                <div className="row align-items-center border rounded-3">
-                  
+                <div className="row align-items-center bg-secondary bg-opacity-25 border rounded-3">
                   <div className="col-auto ps-0">
                     <button className="btn btn-light">
                       <span className="text-wrap text-white d-flex flex-column bg-primary rounded-2 ctm-fs">
-                      <i className="bi bi-geo-alt"></i>
-                        Cinema</span>
+                        <i className="bi bi-geo-alt"></i>
+                        Cinema
+                      </span>
                     </button>
                   </div>
 
                   {cinemaName ? (
-                  <div className="col-auto">
-                    <div className="bg-light rounded-pill px-3 py-2">
-                      <span className="fw-bold">{cinemaName}<span role="button" className="bi bi-x"></span></span>
+                    <div className="col-auto">
+                      <div className="bg-light rounded-pill px-3 py-2">
+                        <span className="fw-bold text-muted">
+                          {cinemaName}
+                          <span
+                            role="button"
+                            onClick={() => setCinemaName("")}
+                            className="bi bi-x-lg px-2"
+                          ></span>
+                        </span>
+                      </div>
                     </div>
-                  </div>
                   ) : (
-                    ''
+                    ""
                   )}
+                </div>
+
+                <div className="mt-3">
+                  <TicketDates />
                 </div>
               </div>
 
-              
               <div className="col-lg-4">
                 <div className="card shadow-sm">
                   <div className="card-body">
@@ -113,6 +125,10 @@ const BuyTickets = () => {
         </div>
       </div>
     </section>
+    ) : (
+      <h2>Loading...</h2>
+    )}
+  </>
   );
 };
 
