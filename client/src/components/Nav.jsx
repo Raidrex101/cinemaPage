@@ -2,7 +2,7 @@ import { useAuthContext } from "../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 
 const Nav = () => {
-  const { autenticated, userPayload } = useAuthContext();
+  const { autenticated, userPayload, logout } = useAuthContext();
   console.log('la payload', userPayload);
   console.log('estoy autenticado?', autenticated);
   
@@ -36,6 +36,18 @@ const Nav = () => {
                     Food
                   </a>
                 </li>
+                <li className="nav-item">
+                  <a className="nav-link text-white fw-bold" href="#">
+                    Promo
+                  </a>
+                </li>
+                {userPayload.role === "ADMIN" && (
+                <li className="nav-item">
+                  <a className="nav-link text-white fw-bold" href="/management">
+                    Management
+                  </a>
+                </li>
+                )}
                 
               </>
             ) : (
@@ -60,7 +72,8 @@ const Nav = () => {
             <button
               className="btn btn-primary rounded-3 mx-3"
               type="submit"
-              onClick={!autenticated ?() => navigate("/login") : (null)}
+              data-testid='login'
+              onClick={!autenticated ?() => navigate("/login") : () => logout()}
             >
               <i className="bi bi-person"> </i>
             </button>

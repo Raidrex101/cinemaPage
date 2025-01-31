@@ -18,6 +18,7 @@ const Home = () => {
           overview={movie.overview}
           poster={movie.poster}
           duration={movie.durationMins}
+          testid={`MovieCard-${movie._id}`}
         />
       ))
     ) : (

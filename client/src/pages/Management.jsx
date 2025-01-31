@@ -6,7 +6,6 @@ const Management = () => {
   const { autenticated, userPayload } = useAuthContext();
   const [buttonName, setButtonName] = useState(null);
 
-  // Función para manejar la apertura del modal según el botón
   const handleOpenModal = (name) => {
     setButtonName(name);
   };
@@ -18,7 +17,7 @@ const Management = () => {
       ) : null}
       <section className="vh-100 custommt">
         <div className="container-fluid text-center"></div>
-        Welcome {userPayload.name}
+        Welcome {userPayload?.name}
         <div>
           {/* Button trigger modal */}
           <button
@@ -41,7 +40,7 @@ const Management = () => {
             Edit room
           </button>
 
-          {/* Modal */}
+          
           <AdminModalForm buttonName={buttonName} />
         </div>
       </section>

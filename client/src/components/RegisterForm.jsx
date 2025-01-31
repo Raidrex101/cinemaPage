@@ -93,6 +93,7 @@ const RegisterForm = ({
 
                 <button
                   className="btn btn-outline-secondary fw-bold p-3 rounded-4 m-3"
+                  data-testid="register-btn"
                   type="submit"
                 >
                   Register

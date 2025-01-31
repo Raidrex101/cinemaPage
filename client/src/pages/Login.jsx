@@ -58,6 +58,8 @@ const Login = () => {
             </div>
             <button
               className="btn btn-primary fw-bold p-3 rounded-4 m-3"
+              type="button"
+              data-testid='login'
               onClick={() => setButtonName("login")}
             >
               Login to your account
@@ -65,6 +67,8 @@ const Login = () => {
             <h3 className="text-secondary mt-3"> Don&#39;t have an account?</h3>
             <button
               className="btn btn-outline-secondary fw-bold p-3 rounded-4 m-3"
+              type="button"
+              data-testid='register'
               onClick={() => setButtonName("register")}
             >
               Register

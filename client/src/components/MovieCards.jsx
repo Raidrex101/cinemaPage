@@ -1,9 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
 
-const MovieCards = ({id, title, duration, poster}) => {
+const MovieCards = ({id, title, duration, poster, testid}) => {
   const navigate = useNavigate();
     return (
-      <div key={id} className="card border-0 mt-3 cardwidth">
+      <div key={id} className="card border-0 mt-3 cardwidth" data-testid={testid}>
   <img
   role='button'
   onClick={() => navigate(`/buy-tickets/${id}`)}
