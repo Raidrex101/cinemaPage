@@ -15,6 +15,7 @@ const api = express()
 api.use(express.json())
 
 api.use(cors())
+
 syncronization()
 
 // rutas
