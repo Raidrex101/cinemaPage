@@ -83,49 +83,18 @@ const createMovie = async (req, res) => {
 // READ
 
 const getAllMovies = async (req, res) => {
-  const { name, releaseDate, rating, genre } = req.query
-  const filter = { isActive: true }
-
-  if (name) {
-    filter.name = new RegExp(name, 'i') // Búsqueda por título
-  }
-
-  if (releaseDate) {
-    const date = new Date(releaseDate)
-
-    if (releaseDate.length === 4) {
-      // por si se escribe solo el año
-      filter.releaseDate = {
-        $gte: new Date(date.getFullYear(), 0, 1), // si se escribe solo el año en la peticion buscara en todo ese año empezando por 0 = enero 1 = dia
-        $lte: new Date(date.getFullYear(), 11, 31) // 11 = diciembre 31 = dia
-      }
-    } else if (releaseDate.lenght === 7) {
-      // por si se escribe solo el año y el mes
-      filter.releaseDate = {
-        $gte: new Date(date.getFullYear(), date.getMonth(), 1), // 1 = primer dia del mes
-        $lte: new Date(date.getFullYear(), date.getMonth() + 1, 0) // +1 = diciembre 0 = un dia antes de diciembre por si el mes solicitado termian en 28, 30 o 31 siempre lo regrese bien
-      }
-    } else {
-      filter.releaseDate = date // si se escribe la fecha especifica se manda tal cual
-    }
-  }
-
-  if (rating) {
-    const minRating = Math.floor(rating) // toma el numero ingresado y lo redondea hacia abajo 8.9 = 8
-    const maxRating = minRating + 0.9 // a el numero ingresado le suma 0.9 para que la consulta retorne rating desde 8.0 hasta 8.9 por ejemplo
-    filter.rating = { $gte: minRating, $lte: maxRating } // entre 8.0 y 8.9 si hay peliculas en ese rango las retona todas
-  }
-
-  if (genre) {
-    filter.genre = new RegExp(genre, 'i') // busca el genre
-  }
-
   try {
-    const movies = await Movie.find(filter)
+    const movies = await Movie.find({ isActive: true })
       .populate('director', 'firstName lastName bio')
       .populate('cast', 'firstName lastName')
       .populate('genre', 'name')
-      .populate('rooms', 'name seats occupiedSeats functionTimes')
+      .populate({
+        path: 'rooms',
+        populate: {
+          path: 'functionTimes',
+          select: 'time movie occupiedSeats'
+        }
+      })
     res.status(200).json(movies)
   } catch (error) {
     res
