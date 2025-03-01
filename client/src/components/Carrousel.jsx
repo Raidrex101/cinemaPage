@@ -1,13 +1,17 @@
-import { MovieContext } from "../context/movieContext"
-import { useContext } from "react"
-import { Link, useNavigate } from 'react-router-dom'
+import { MovieContext } from "../context/movieContext";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Carrousel = () => {
-    const { movies } = useContext(MovieContext)
-    const navigate = useNavigate()
-    const selectedMovieNames = ['Sonic 3: La Película', 'Mufasa: El rey león', 'Moana 2', 'Wicked']
-    const selectedMovies = movies.filter(movie => selectedMovieNames.includes(movie.name))
-    
+  const { movies } = useContext(MovieContext);
+  const navigate = useNavigate();
+  
+  const selectedMoviesIndexes = [0, 2, 4, 13];
+
+  const selectedMovies = selectedMoviesIndexes
+    .map(index => movies[index])
+    .filter(movie => movie !== undefined)
+
   return (
     <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">
       <div className="carousel-indicators">
@@ -25,18 +29,15 @@ const Carrousel = () => {
       </div>
       <div className="carousel-inner">
         {selectedMovies.map((movie, index) => (
-          <div
-            key={movie._id}
-            className={`carousel-item ${index === 0 ? "active" : ""}`}
-          >
+          <div key={movie._id} className={`carousel-item ${index === 0 ? "active" : ""}`}>
             <div className="d-block carouselbg pt-3">
-            <img
-              role='button'
-              onClick={() => navigate(`/buy-tickets/${movie._id}`)}
-              src={movie.poster}
-              className="d-block carouselimg"
-              alt={movie.name}
-            />
+              <img
+                role="button"
+                onClick={() => navigate(`/buy-tickets/${movie._id}`)}
+                src={movie.poster}
+                className="d-block carouselimg"
+                alt={movie.name}
+              />
               <div className="carousel-caption carouseltxt">
                 <h1 className="fw-bold carouselname">{movie.name}</h1>
                 <p className="carouselp ctmtruncate">{movie.overview}</p>
@@ -50,26 +51,16 @@ const Carrousel = () => {
           </div>
         ))}
       </div>
-      <button
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="prev"
-      >
+      <button className="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
         <span className="carousel-control-prev-icon" aria-hidden="true" />
         <span className="visually-hidden">Anterior</span>
       </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="next"
-      >
+      <button className="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
         <span className="carousel-control-next-icon" aria-hidden="true" />
         <span className="visually-hidden">Siguiente</span>
       </button>
     </div>
+  );
+};
 
-  )
-}
-export default Carrousel
+export default Carrousel;
