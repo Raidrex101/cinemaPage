@@ -18,9 +18,9 @@ const roomSchema = new mongoose.Schema({
     default: () => seats
   },
   functionTimes: [{
-    time: { type: String, required: true },
+    time: [String],
     movie: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' },
-    occupiedSeats: { type: [String], default: [] }
+    occupiedSeats: [String]
   }],
   isActive: {
     type: Boolean,
