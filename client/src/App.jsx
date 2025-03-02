@@ -48,7 +48,7 @@ function App() {
     <>
       <MovieProvider>
       <AuthProvider>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} fallbackElement={<div>404 Not Found</div>} />
       </AuthProvider>
       </MovieProvider>
     </>
