@@ -8,12 +8,10 @@ import { isActiveControl } from "../services/roomServices";
 const Management = () => {
   const { autenticated, userPayload } = useAuthContext();
   const { movies } = useContext(MovieContext);
-
   const mainUrl = import.meta.env.VITE_CINEMA_API;
   const [rooms, setRooms] = useState([]);
 
   const activeOrInactiveRoom = async (roomId) => {
-    
     if (userPayload.role !== "ADMIN") {
       console.error("Invalid credentials");
     }
@@ -30,9 +28,13 @@ const Management = () => {
       if (response.status === 200) {
         const updatedRooms = rooms.map((room) => {
           if (room._id === roomId) {
-            return { ...room, isActive: !room.isActive };
+            return {
+              ...room,
+              isActive: !room.isActive,
+              functionTimes: room.isActive ? [] : room.functionTimes,
+            };
           }
-          
+
           return room;
         });
         setRooms(updatedRooms);
@@ -57,13 +59,13 @@ const Management = () => {
 
         const data = await response.json();
         console.log("Rooms data:", data);
-        setRooms(data);
+        setRooms(data)
       } catch (error) {
         console.error("Error fetching rooms:", error);
       }
     };
     getAllRooms();
-  }, [mainUrl, setRooms]);
+  }, [mainUrl]);
 
   return (
     <>
@@ -104,22 +106,26 @@ const Management = () => {
                     <h5 className="card-title">{room.name}</h5>
                     <p className="card-text">
                       Movie:{" "}
-                      {room.functionTimes.length > 0
+                      {room.functionTimes.length > 0 && room.functionTimes[0].movie
                         ? room.functionTimes[0].movie.name
                         : "No movie assigned"}
                     </p>
                     <p className="card-text">Capacity: {room.seats.length}</p>
                     <p className="card-text">
                       Price:{" "}
-                      {room.functionTimes.length > 0
+                      {room.functionTimes.length > 0 && room.functionTimes[0].movie
                         ? room.functionTimes[0].movie.seatPrice
                         : "No price assigned"}
                     </p>
                     <p className="card-text">
                       Times:{" "}
-                      {room.functionTimes.length > 0 &&
-                      Array.isArray(room.functionTimes[0].time)
-                        ? room.functionTimes[0].time.join(", ")
+                      {room.functionTimes.length > 0
+                        ? room.functionTimes.map((funcTime, index) => (
+                            <span key={index}>
+                              {funcTime.time}
+                              {index < room.functionTimes.length - 1 && ", "}
+                            </span>
+                          ))
                         : "No times available"}
                       <p className="card-text py-1 fw-bold">
                         Status:
