@@ -1,7 +1,7 @@
 import { useAuthContext } from "../hooks/useAuth";
 import { MovieContext } from "../context/movieContext";
 import { useState, useEffect, useContext } from "react";
-import AddRoom from "../components/addRoom";
+import AddRoom from "../components/AddRoom";
 import EditRoom from "../components/EditRoom";
 import { isActiveControl } from "../services/roomServices";
 
