@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../hooks/useAuth";
-import { useState } from "react";
 import { editRoom } from "../services/roomServices";
 
 const EditRoom = ({ rooms, movies, setRooms }) => {
   const { userPayload } = useAuthContext();
-  const [closeModal, setCloseModal] = useState(false);
+  
+  
 
   const primeTimes = ["10:00", "12:30", "15:00", "17:30", "20:00", "22:30"];
   const standardTimes = ["11:00", "13:30", "16:00", "18:30", "21:00"];
@@ -21,32 +21,43 @@ const EditRoom = ({ rooms, movies, setRooms }) => {
     const role = userPayload.role;
     if (role !== "ADMIN") {
       console.error("Invalid credentials");
+      return;
     }
-
+  
     const token = localStorage.getItem("token");
-
+  
     if (!token) {
       console.error("No token found");
+      return;
     }
-
+  
     try {
       const response = await editRoom(data, token);
       if (response.status === 200) {
-        const updatedRooms = rooms.map((room) =>
-          room._id === data.roomId
-            ? {
-                ...room,
-                functionTimes: [
-                  {
-                    movie: movies.find((m) => m._id === data.movieId),
-                    time: data.time,
-                  },
-                ],
-              }
-            : room
-        );
-        setRooms(updatedRooms);
-        setCloseModal(true);
+  
+        const movie = movies.find((m) => m._id === data.movieId)
+        
+        if (!movie) {
+          console.error("Movie not found");
+          return;
+        }
+  
+        setRooms((prevRooms) => {
+          return prevRooms.map((room) =>
+            room._id === data.roomId
+              ? {
+                  ...room,
+                  functionTimes: [
+                    ...room.functionTimes,
+                    {
+                      movie: movie,
+                      time: data.time,
+                    }
+                  ],
+                }
+              : room
+          );
+        });
       }
     } catch (error) {
       console.error("Error assigning movie:", error);
@@ -151,7 +162,7 @@ const EditRoom = ({ rooms, movies, setRooms }) => {
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  {...(closeModal ? { "data-bs-dismiss": "modal" } : {})}
+                  data-bs-dismiss="modal"
                 >
                   Save
                 </button>
