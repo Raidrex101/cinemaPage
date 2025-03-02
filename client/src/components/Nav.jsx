@@ -43,9 +43,9 @@ const Nav = () => {
                 </li>
                 {userPayload.role === "ADMIN" && (
                 <li className="nav-item">
-                  <a className="nav-link text-white fw-bold" href="/management">
+                  <Link to="/management" className="nav-link text-white fw-bold">
                     Management
-                  </a>
+                  </Link>
                 </li>
                 )}
                 
