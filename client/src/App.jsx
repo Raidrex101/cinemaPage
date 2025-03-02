@@ -36,7 +36,7 @@ function App() {
         { path: '/buy-tickets/:movieId', element: <BuyTickets /> },
       ],
     },
-    { path: '/management', element: <Management /> },
+    { path: 'management', element: <Management /> },
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
     
