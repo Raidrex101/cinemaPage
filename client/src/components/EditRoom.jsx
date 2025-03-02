@@ -4,9 +4,6 @@ import { editRoom } from "../services/roomServices";
 
 const EditRoom = ({ rooms, movies, setRooms }) => {
   const { userPayload } = useAuthContext();
-  
-  
-
   const primeTimes = ["10:00", "12:30", "15:00", "17:30", "20:00", "22:30"];
   const standardTimes = ["11:00", "13:30", "16:00", "18:30", "21:00"];
   const legacyTimes = ["14:00", "16:30", "19:00", "21:30"];
