@@ -75,7 +75,7 @@ const Management = () => {
         <section className=" custommt pt-3">
           <div className="container-fluid text-center fw-bold">
             <h2>Welcome {userPayload?.name}</h2>
-            <div className="fixed-top mt-2 ms-5 ">
+            <div className="fixed-top mt-4 pt-4 w-25 top-0 start-50 translate-middle">
               {/* Button trigger modal */}
               <button
                 type="button"
