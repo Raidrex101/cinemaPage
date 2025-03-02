@@ -32,10 +32,11 @@ function App() {
       children: [
         { path: '/', element: <Home /> },
         { path: '/movie/:id', element: <MoviePage /> },
-        { path: '/management', element: <Management /> },
+        
         { path: '/buy-tickets/:movieId', element: <BuyTickets /> },
       ],
     },
+    { path: '/management', element: <Management /> },
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
     
