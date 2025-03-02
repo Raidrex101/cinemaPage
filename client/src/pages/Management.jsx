@@ -72,10 +72,10 @@ const Management = () => {
       {!autenticated && userPayload.role !== "ADMIN" ? (
         <div>You do not have permission to see this page</div>
       ) : (
-        <section className=" custommt">
-          <div className="container-fluid text-center">
-            Welcome {userPayload?.name}
-            <div>
+        <section className=" custommt pt-3">
+          <div className="container-fluid text-center fw-bold">
+            <h2>Welcome {userPayload?.name}</h2>
+            <div className="fixed-top mt-2 ms-5 ">
               {/* Button trigger modal */}
               <button
                 type="button"
@@ -95,10 +95,10 @@ const Management = () => {
                 Edit room
               </button>
 
+            </div>
               <AddRoom setRooms={setRooms} />
               <EditRoom rooms={rooms} movies={movies} setRooms={setRooms} />
-            </div>
-            <div className="row">
+            <div className="row mt-2">
               {rooms.map((room) => (
                 <div key={room._id} className="col-md-4">
                   <div className="card mb-3">

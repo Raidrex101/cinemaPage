@@ -30,7 +30,6 @@ const AddRoom = ({ setRooms }) => {
     try {
       const response = await createRoom(data , token)
       if (response.status === 201) {
-        console.log("Room created", response.data)
         setRooms((prevRooms) => [...prevRooms, response.data])
       }
     } catch (err) {
