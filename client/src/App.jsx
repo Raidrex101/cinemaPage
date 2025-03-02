@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { createHashRouter, RouterProvider, Outlet } from "react-router-dom";
 import Home from './pages/Home'
 import Nav from './components/Nav';
 import Login from './pages/Login'
@@ -25,20 +25,20 @@ const MainLayout = () => {
   );
 };
 function App() {
-  const router = createBrowserRouter([
+  const router = createHashRouter([
     {
       path: '/',
       element: <MainLayout />,
       children: [
-        { path: '/', element: <Home /> },
-        { path: '/movie/:id', element: <MoviePage /> },
-        
-        { path: '/buy-tickets/:movieId', element: <BuyTickets /> },
+        { path: '', element: <Home /> },
+        { path: 'movie/:id', element: <MoviePage /> },
+        { path: 'management', element: <Management /> },
+        { path: 'buy-tickets/:movieId', element: <BuyTickets /> },
       ],
     },
-    { path: 'management', element: <Management /> },
-    { path: '/login', element: <Login /> },
-    { path: '/register', element: <Register /> },
+    
+    { path: 'login', element: <Login /> },
+    { path: 'register', element: <Register /> },
     
   ]);
 
