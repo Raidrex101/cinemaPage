@@ -25,7 +25,6 @@ const isActiveControl = (roomId, token) => {
     });
   };
 
-
 export {
     createRoom,
     editRoom,

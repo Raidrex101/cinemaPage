@@ -82,6 +82,11 @@ const manageIsActive = async (req, res) => {
       }
       room.isActive = false
       room.functionTimes = []
+
+      await Movie.updateMany(
+        { rooms: room._id },
+        { $pull: { rooms: room._id } }
+      )
     } else {
       room.isActive = true
     }
