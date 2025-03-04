@@ -29,7 +29,7 @@ const MoviePage = () => {
                 <p>{movie.overview}</p>
                 <button
                  className="btn btn-primary rounded-pill"
-                 onClick={() => navigate('/')}
+                 onClick={() => navigate(`/buy-tickets/${id}`)}
                  >Buy tickets </button>
               </div>
             </div>
