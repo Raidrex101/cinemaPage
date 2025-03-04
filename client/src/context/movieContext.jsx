@@ -16,7 +16,6 @@ const MovieProvider = ({ children }) => {
                     throw new Error(`Error fetching movies: ${response.status} ${response.statusText}`)
                 }
                 const data = await response.json()
-                console.log('Movies data:', data)
                 setMovies(data)
             } catch (error) {
                 console.error('Error fetching movies:', error)
