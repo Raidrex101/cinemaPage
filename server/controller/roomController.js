@@ -23,7 +23,7 @@ const getAllRooms = async (req, res) => {
       .find({})
       .populate({
         path: 'functionTimes.movie',
-        select: 'name poster seatPrice'
+        select: 'name seatPrice -_id'
       })
     res.status(200).json(rooms)
   } catch (error) {
@@ -34,38 +34,58 @@ const getAllRooms = async (req, res) => {
 // UPDATE
 
 const addFunctionTime = async (req, res) => {
+
   try {
-    const { roomId, time, movieId } = req.body
+    const { roomId, functionTime } = req.body
+
+    if (!roomId || !functionTime) {
+      return res.status(400).json({ message: 'Missing roomId or functionTime' })
+    }
+
+    const { movie, seats, ocupiedSeats, time } = functionTime
+
+    if (!movie || !time || !seats) {
+      return res.status(400).json({ message: 'Incomplete functionTime data' })
+    }
+
     const room = await Room.findById(roomId)
     if (!room) {
       return res.status(404).json({ message: 'Room not found' })
     }
 
-    const existingFunction = room.functionTimes.find(ft => ft.time === time)
+    const existingFunction = room.functionTimes.find(
+      (ft) => ft.time === time && ft.movie.toString() === movie.toString()
+    )
+
     if (existingFunction) {
-      return res.status(400).json({ message: 'Function time already exists' })
+      return res
+        .status(400)
+        .json({ message: `Function time ${time} with this movie already exists` })
     }
 
     room.functionTimes.push({
       time,
-      movie: movieId
+      movie,
+      seats,
+      ocupiedSeats
     })
 
     await room.save()
 
-    const movie = await Movie.findById(movieId)
-    if (!movie) {
+    const movieData = await Movie.findById(movie)
+    if (!movieData) {
       return res.status(404).json({ message: 'Movie not found' })
     }
 
-    if (!movie.rooms.includes(roomId)) {
-      movie.rooms.push(roomId)
-      await movie.save()
+    if (!movieData.rooms.map((id) => id.toString()).includes(roomId.toString())) {
+      movieData.rooms.push(roomId)
+      await movieData.save()
     }
 
-    res.status(200).json({ message: 'Function time added successfully', room })
+    return res.status(200).json({ message: 'Function time added successfully', room })
   } catch (error) {
-    res.status(500).json({ message: 'Error adding function time', error })
+    console.error('Error adding function time:', error)
+    return res.status(500).json({ message: 'Error adding function time', error: error.message })
   }
 }
 
@@ -77,16 +97,19 @@ const manageIsActive = async (req, res) => {
     }
 
     if (room.isActive) {
-      if (room.seats < 40) {
-        return res.status(400).json({ message: 'Some seats are bought, you cannot deactivate the room' })
+      const hasOccipiedSeats = room.functionTimes.some(ft => ft.occupiedSeats.kength > 0)
+      if (hasOccipiedSeats) {
+        return res.status(400).json({ message: 'Cannot deactivate a room with occupied seats' })
       }
+
       room.isActive = false
-      room.functionTimes = []
 
       await Movie.updateMany(
         { rooms: room._id },
         { $pull: { rooms: room._id } }
       )
+
+      room.functionTimes = []
     } else {
       room.isActive = true
     }

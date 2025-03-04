@@ -7,7 +7,7 @@ const roomRoutes = express.Router()
 
 roomRoutes.post('/', isAuth, isAdmin, createRoom)
 roomRoutes.get('/', getAllRooms)
-roomRoutes.patch('/', isAuth, isAdmin, addFunctionTime)
+roomRoutes.post('/functionTime', isAuth, isAdmin, addFunctionTime)
 roomRoutes.patch('/isActive', isAuth, isAdmin, manageIsActive)
 
 export default roomRoutes
