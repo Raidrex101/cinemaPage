@@ -9,8 +9,29 @@ const Management = () => {
   const { autenticated, userPayload } = useAuthContext();
   const { movies } = useContext(MovieContext);
   const mainUrl = import.meta.env.VITE_CINEMA_API;
-  const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState([])
 
+  const getAllRooms = async () => {
+    try {
+      const response = await fetch(`${mainUrl}/rooms`);
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching rooms: ${response.status} ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      setRooms(data);
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
+  }
+
+  useEffect(() => {
+    getAllRooms();
+  }, [])
+  
   const activeOrInactiveRoom = async (roomId) => {
     if (userPayload.role !== "ADMIN") {
       console.error("Invalid credentials");
@@ -45,123 +66,83 @@ const Management = () => {
       console.error("Error changing room status:", error);
     }
   };
-
-  useEffect(() => {
-    const getAllRooms = async () => {
-      try {
-        const response = await fetch(`${mainUrl}/rooms`);
-
-        if (!response.ok) {
-          throw new Error(
-            `Error fetching rooms: ${response.status} ${response.statusText}`
-          );
-        }
-
-        const data = await response.json();
-        console.log("Rooms data:", data);
-        setRooms(data);
-      } catch (error) {
-        console.error("Error fetching rooms:", error);
-      }
-    };
-    getAllRooms();
-  }, [mainUrl]);
+  
 
   return (
     <>
-      {!autenticated && userPayload.role !== "ADMIN" ? (
+     {!autenticated || userPayload?.role !== "ADMIN" ? (
         <div>You do not have permission to see this page</div>
       ) : (
-        <section className=" custommt pt-3">
+        <section className="custommt pt-3">
           <div className="container-fluid text-center fw-bold">
             <h2>Welcome {userPayload?.name}</h2>
             <div className="fixed-top mt-4 pt-4 w-25 top-0 start-50 translate-middle">
-              {/* Button trigger modal */}
-              <button
-                type="button"
-                className="btn btn-success m-2 fw-bold"
-                data-bs-toggle="modal"
-                data-bs-target="#add-room"
-              >
+              <button type="button" className="btn btn-success m-2 fw-bold" data-bs-toggle="modal" data-bs-target="#add-room">
                 Add new room
               </button>
-
-              <button
-                type="button"
-                className="btn btn-warning fw-bold m-2"
-                data-bs-toggle="modal"
-                data-bs-target="#edit-room"
-              >
+              <button type="button" className="btn btn-warning fw-bold m-2" data-bs-toggle="modal" data-bs-target="#edit-room">
                 Edit room
               </button>
-
             </div>
-              <AddRoom setRooms={setRooms} />
-              <EditRoom rooms={rooms} movies={movies} setRooms={setRooms} />
+            <AddRoom setRooms={setRooms} />
+            <EditRoom rooms={rooms} movies={movies} setRooms={setRooms} getAllRooms={getAllRooms} />
+
             <div className="row mt-2">
-              {rooms.map((room) => (
-                <div key={room._id} className="col-md-4">
-                  <div className="card mb-3">
-                    <div className="card-body">
-                      <h5 className="card-title">{room.name}</h5>
-                      <p className="card-text">
-                        Movie:{" "}
-                        {room.functionTimes.length > 0 &&
-                        room.functionTimes[0].movie
-                          ? room.functionTimes[0].movie.name
-                          : "No movie assigned"}
-                      </p>
-                      <p className="card-text">Capacity: {room.seats.length}</p>
-                      <p className="card-text">
-                        Price:{" "}
-                        {room.functionTimes.length > 0 &&
-                        room.functionTimes[0].movie
-                          ? room.functionTimes[0].movie.seatPrice
-                          : "No price assigned"}
-                      </p>
-                      <p className="card-text">
-                        Times:{" "}
-                        {room.functionTimes.length > 0
-                          ? room.functionTimes.map((funcTime, index) => (
-                              <span key={index}>
-                                {funcTime.time}
-                                {index < room.functionTimes.length - 1 && ", "}
-                              </span>
-                            ))
-                          : "No times available"}
+              {rooms.map((room) => {
+                const roomMovies = {}
+
+                room.functionTimes.forEach((ft) => {
+                  const movieName = ft.movie.name
+                  if (!roomMovies[movieName]) {
+                    roomMovies[movieName] = {
+                      times: [],
+                      seatPrice: ft.movie.seatPrice,
+                      occupiedSeats: [],
+                    };
+                  }
+                  roomMovies[movieName].times.push(ft.time)
+                  if (Array.isArray(ft.occupiedSeats)) {
+                    roomMovies[movieName].occupiedSeats.push(...ft.occupiedSeats)
+                  }
+                });
+
+                return (
+                  <div key={room._id} className="col-md-4">
+                    <div className="card mb-3">
+                      <div className="card-body overflow-y-scroll" style={{ height: "13rem" }}>
+                        <h5 className="card-title">{room.name}</h5>
+                        {Object.keys(roomMovies).length > 0 ? (
+                          Object.entries(roomMovies).map(([movieName, details], index) => (
+                            <div key={index}>
+                              <p className="card-text">
+                                <strong>Movie {index + 1}: </strong> {movieName}
+                              </p>
+                              <p className="card-text">
+                                <strong>Times: </strong> {details.times.join(", ")}
+                              </p>
+                              <p className="card-text">
+                                <strong>Price: </strong> {details.seatPrice || "No price assigned"}
+                              </p>
+                              <p className="card-text">
+                                <strong>Occupied seats?: </strong> {details.occupiedSeats.length > 0 ? "Yes" : "No"}
+                              </p>
+                              <hr />
+                            </div>
+                          ))
+                        ) : (
+                          <p className="card-text">No movie assigned</p>
+                        )}
                         <p className="card-text py-1 fw-bold">
-                          Status:
-                          {room.isActive ? (
-                            <p>
-                              Active{" "}
-                              <button
-                                type="button"
-                                className="btn btn-danger"
-                                value={room._id}
-                                onClick={() => activeOrInactiveRoom(room._id)}
-                              >
-                                Press to deactivate
-                              </button>
-                            </p>
-                          ) : (
-                            <p>
-                              Inactive{" "}
-                              <button
-                                type="button"
-                                className="btn btn-primary"
-                                value={room._id}
-                                onClick={() => activeOrInactiveRoom(room._id)}
-                              >
-                                Press to activate
-                              </button>
-                            </p>
-                          )}
+                          <strong>Status:</strong> {room.isActive ? "Active" : "Inactive"}
                         </p>
-                      </p>
+                        <button type="button" className={`btn ${room.isActive ? "btn-danger" : "btn-primary"}`} onClick={() => activeOrInactiveRoom(room._id)}>
+                          {room.isActive ? "Press to deactivate" : "Press to activate"}
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>

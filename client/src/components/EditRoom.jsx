@@ -2,11 +2,27 @@ import { useForm } from "react-hook-form";
 import { useAuthContext } from "../hooks/useAuth";
 import { editRoom } from "../services/roomServices";
 
-const EditRoom = ({ rooms, movies, setRooms }) => {
+const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
   const { userPayload } = useAuthContext();
-  const primeTimes = ["10:00", "12:30", "15:00", "17:30", "20:00", "22:30"];
-  const standardTimes = ["11:00", "13:30", "16:00", "18:30", "21:00"];
-  const legacyTimes = ["14:00", "16:30", "19:00", "21:30"];
+
+  const times = [
+    "10:00",
+    "11:00",
+    "12:30",
+    "13:30",
+    "14:00",
+    "15:00",
+    "16:00",
+    "16:30",
+    "17:30",
+    "18:30",
+    "19:00",
+    "20:00",
+    "21:00",
+    "21:30",
+    "22:00",
+    "22:30",
+  ];
 
   const {
     register,
@@ -20,44 +36,98 @@ const EditRoom = ({ rooms, movies, setRooms }) => {
       console.error("Invalid credentials");
       return;
     }
-  
+
     const token = localStorage.getItem("token");
-  
+
     if (!token) {
       console.error("No token found");
       return;
     }
-  
+
     try {
-      const response = await editRoom(data, token);
+      const movie = movies.find((movie) => movie._id === data.movieId);
+
+      if (!movie) {
+        console.error("Movie not found");
+        return;
+      }
+
+      const selectedTime = data.time;
+
+      const seatsTemplate = [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7",
+        "A8",
+        "A9",
+        "A10",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7",
+        "B8",
+        "B9",
+        "B10",
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "C8",
+        "C9",
+        "C10",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7",
+        "D8",
+        "D9",
+        "D10",
+      ];
+
+      const functionTime = {
+        movie: movie._id,
+        time: selectedTime,
+        seats: [...seatsTemplate],
+        ocupiedSeats: [],
+      };
+
+      const roomData = {
+        roomId: data.roomId,
+        functionTime: functionTime,
+      };
+
+      const response = await editRoom(roomData, token);
+
       if (response.status === 200) {
-  
-        const movie = movies.find((m) => m._id === data.movieId)
-        
-        if (!movie) {
-          console.error("Movie not found");
-          return;
-        }
-  
         setRooms((prevRooms) => {
-          return prevRooms.map((room) =>
+          const updatedRooms = prevRooms.map((room) =>
             room._id === data.roomId
               ? {
                   ...room,
-                  functionTimes: [
-                    ...room.functionTimes,
-                    {
-                      movie: movie,
-                      time: data.time,
-                    }
-                  ],
+                  functionTimes: [...room.functionTimes, functionTime],
                 }
               : room
           );
+          return updatedRooms;
         });
+        getAllRooms()
+        document.getElementById("close-modal").click();
       }
     } catch (error) {
-      console.error("Error assigning movie:", error);
+      console.error("Error editing room:", error);
     }
   };
 
@@ -123,7 +193,7 @@ const EditRoom = ({ rooms, movies, setRooms }) => {
                     ))}
                 </select>
                 {errors.movieId && (
-                  <p className="text-danger">Selecting a room is required</p>
+                  <p className="text-danger">Selecting a movie is required</p>
                 )}
                 <div id="movie-name" className="form-text">
                   Select a Movie.
@@ -136,16 +206,17 @@ const EditRoom = ({ rooms, movies, setRooms }) => {
                   id="times"
                   {...register("time", { required: true })}
                 >
-                  <option value={[primeTimes]}>Prime times</option>
-                  <option value={[standardTimes]}>Standard times</option>
-                  <option value={[legacyTimes]}>Legacy times</option>
+                  {times.map((time, index) => (
+                    <option key={index} value={time}>
+                      {time}
+                    </option>
+                  ))}
                 </select>
                 {errors.time && (
                   <p className="text-danger">Selecting a time is required</p>
                 )}
                 <div id="time-selec" className="form-text">
-                  Prime: more functions, Standard: less functions and Legacy:
-                  less functions at late hours.
+                  Select a Time.
                 </div>
               </div>
               <div className="modal-footer">
@@ -156,11 +227,7 @@ const EditRoom = ({ rooms, movies, setRooms }) => {
                 >
                   Close
                 </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  data-bs-dismiss="modal"
-                >
+                <button type="submit" className="btn btn-primary">
                   Save
                 </button>
               </div>
