@@ -3,9 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Nav = () => {
   const { autenticated, userPayload, logout } = useAuthContext();
-  console.log('la payload', userPayload);
-  console.log('estoy autenticado?', autenticated);
-  
   
   const navigate = useNavigate();
   return (
