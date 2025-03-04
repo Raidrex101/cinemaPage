@@ -7,13 +7,22 @@ import seatIcon from "../assets/seatIcon.svg";
 import food from "../assets/food.svg";
 
 const BuyTickets = () => {
-  const { movieId } = useParams();
-  const { movies } = useContext(MovieContext);
-  const movie = movies.find((movie) => movie._id === movieId);
-  const [activeStep, setActiveStep] = useState("Schedule");
-  const [cinemaName, setCinemaName] = useState("el cine placeholder");
+  const { movieId } = useParams()
+  const { movies } = useContext(MovieContext)
+  const [activeStep, setActiveStep] = useState("Schedule")
+  const [cinemaName, setCinemaName] = useState("el cine placeholder")
+  const [selectedDate, setSelectedDate] = useState(null)
+  const movie = movies.find((movie) => movie._id === movieId)
+  
+  
+  
   const isActive = (step) => activeStep === step;
-  console.log("movie", movie);
+
+  const availableTimes = selectedDate
+   ? movie?.rooms?.flatMap(room =>
+     room.functionTimes.filter(ft => ft.time.some(t => t.startsWith(selectedDate)))
+     .map(ft => ({ time: ft.time, room: room.name }))
+   ) : []
 
   return (
     <>
@@ -24,7 +33,7 @@ const BuyTickets = () => {
         className="movie-background"
         style={{ backgroundImage: `url(${movie.poster})` }}
       >
-        <div className="position-absolute top-0 start-50 translate-middle mt-4 bg-transparent shadow-lg align-items-center justify-content-center text-white">
+        <div className="position-absolute top-0 start-50 translate-middle mt-4 bg-transparent shadow-lg align-items-center justify-content-center text-white mt-5">
           <div className="fw-bold">
             <span
               className={`fs-4 ${isActive("Schedule") ? "" : "text-secondary"}`}
@@ -89,7 +98,6 @@ const BuyTickets = () => {
                       </span>
                     </button>
                   </div>
-
                   {cinemaName ? (
                     <div className="col-auto">
                       <div className="bg-light rounded-pill px-3 py-2">
@@ -108,18 +116,40 @@ const BuyTickets = () => {
                   )}
                 </div>
 
-                <div className="mt-3">
-                  <TicketDates />
+                <div className="mt-2">
+                  <TicketDates setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
                 </div>
               </div>
-
+                  
               <div className="col-lg-4">
                 <div className="card shadow-sm">
                   <div className="card-body">
-                    <TicketsForm />
+                  <TicketsForm />
                   </div>
                 </div>
               </div>
+
+              {selectedDate && (
+                <div className=" col-lg-8 mt-4 p-2 bg-light rounded-3">
+                  <h5>Available Showtimes</h5>
+                        {availableTimes.length > 0 ? (
+                          availableTimes.map((schedule, index) => (
+                            <div key={index} className="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+                              <span className="fw-bold">{schedule.room}</span>
+                              <div>
+                                {schedule.time.map((t, idx) => (
+                                  <button key={idx} className="btn btn-outline-primary mx-1">
+                                    {t.split("T")[1].slice(0, 5)} {/* Extrae solo la hora */}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <p>No available showtimes for the selected date.</p>
+                        )}
+                </div>
+              )}
             </div>
           </div>
         </div>
