@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../hooks/useAuth";
 import { editRoom } from "../services/roomServices";
+import { generateDates } from "../utils/dateUtils";
 
 const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
   const { userPayload } = useAuthContext();
+  const dates = generateDates().map((date) => date.formattedDate)
 
   const times = [
     "10:00",
@@ -99,6 +101,7 @@ const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
 
       const functionTime = {
         movie: movie._id,
+        date: data.date,
         time: selectedTime,
         seats: [...seatsTemplate],
         ocupiedSeats: [],
@@ -123,7 +126,7 @@ const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
           );
           return updatedRooms;
         });
-        getAllRooms()
+        getAllRooms();
         document.getElementById("close-modal").click();
       }
     } catch (error) {
@@ -162,6 +165,9 @@ const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
                   id="room"
                   {...register("roomId", { required: true })}
                 >
+                  <option disabled="disabled" selected="true">
+                    Room
+                  </option>
                   {rooms.map(
                     (room) =>
                       room.isActive === true && (
@@ -185,6 +191,9 @@ const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
                   id="movie"
                   {...register("movieId", { required: true })}
                 >
+                  <option disabled="disabled" selected="true">
+                    Movie
+                  </option>
                   {movies.length > 0 &&
                     movies.map((movie) => (
                       <option key={movie._id} value={movie._id}>
@@ -198,6 +207,29 @@ const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
                 <div id="movie-name" className="form-text">
                   Select a Movie.
                 </div>
+                <label htmlFor="date-select" className="form-label p-2 fw-bold">
+                  Avilable dates:
+                </label>
+                <select
+                 name="date"
+                id="dates"
+                {...register("date", { required: true })}>
+                  <option disabled="disabled" selected="true">
+                    {" "}
+                    Date
+                  </option>
+                  {dates?.map((date, index) => (
+                    <option key={index} value={date}>
+                      {date}
+                    </option>
+                  ))}
+                </select>
+                {errors.date && (
+                  <p className="text-danger">Selecting a date is required</p>
+                )}
+                <div id="movie-name" className="form-text">
+                  Select a Date.
+                </div>
                 <label htmlFor="time-selec" className="form-label p-2 fw-bold">
                   Avilable times:
                 </label>
@@ -206,6 +238,9 @@ const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
                   id="times"
                   {...register("time", { required: true })}
                 >
+                  <option disabled="disabled" selected="true">
+                    Time
+                  </option>
                   {times.map((time, index) => (
                     <option key={index} value={time}>
                       {time}
