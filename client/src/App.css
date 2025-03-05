@@ -50,6 +50,22 @@ body {
     font-size: .8rem;
     padding: 1px 2.5px 1px 2.5px;
   }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .seat-button {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 5px;
+  }
+  
   
 
 
