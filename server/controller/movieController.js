@@ -92,7 +92,7 @@ const getAllMovies = async (req, res) => {
         path: 'rooms',
         populate: {
           path: 'functionTimes',
-          select: 'time movie occupiedSeats'
+          select: 'time seats occupiedSeats'
         }
       })
     res.status(200).json(movies)
