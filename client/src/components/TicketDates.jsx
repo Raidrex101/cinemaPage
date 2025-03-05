@@ -1,11 +1,12 @@
 const TicketDates = ({ setSelectedDate, selectedDate }) => {
   const today = new Date();
-  const dates = [];
-
+  const dates = []
+  
   for (let i = 0; i < 7; i++) {
-    const currentDate = new Date(today);
+    const currentDate = new Date(today)
+    
     currentDate.setDate(today.getDate() + i);
-    const formattedDate = currentDate.toISOString().split("T")[0]; // Formato YYYY-MM-DD
+    const formattedDate = currentDate.toLocaleString().split(",")[0]
 
     dates.push({
       day: currentDate.toLocaleDateString("en-US", { weekday: "long" }),
