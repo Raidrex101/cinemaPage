@@ -42,9 +42,9 @@ const addFunctionTime = async (req, res) => {
       return res.status(400).json({ message: 'Missing roomId or functionTime' })
     }
 
-    const { movie, seats, ocupiedSeats, time } = functionTime
+    const { movie, seats, ocupiedSeats, time, date } = functionTime
 
-    if (!movie || !time || !seats) {
+    if (!movie || !time || !seats || !date) {
       return res.status(400).json({ message: 'Incomplete functionTime data' })
     }
 
@@ -54,7 +54,7 @@ const addFunctionTime = async (req, res) => {
     }
 
     const existingFunction = room.functionTimes.find(
-      (ft) => ft.time === time && ft.movie.toString() === movie.toString()
+      (ft) => ft.time === time && ft.movie.toString() === movie.toString() && ft.date === date
     )
 
     if (existingFunction) {
@@ -65,6 +65,7 @@ const addFunctionTime = async (req, res) => {
 
     room.functionTimes.push({
       time,
+      date,
       movie,
       seats,
       ocupiedSeats
