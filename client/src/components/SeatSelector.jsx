@@ -16,7 +16,7 @@ const SeatSelector = ({ movieFunction, onSeatSelect }) => {
   };
 
   return (
-    <div className="col-lg-8 mt-2 p-2 bg-light rounded-3">
+    <div className="mt-2 p-2 bg-light rounded-3">
       <h5>Available Seats</h5>
       <div className="d-flex align-items-center justify-content-center border-bottom">
         <div className="grid-container">
