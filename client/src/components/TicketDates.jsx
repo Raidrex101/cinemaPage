@@ -1,4 +1,7 @@
+import { useAuthContext } from "../hooks/useAuth";
 const TicketDates = ({ setSelectedDate, selectedDate }) => {
+  const { userPayload } = useAuthContext();
+  const customerId = userPayload?._id
   const today = new Date();
   const dates = []
   
@@ -22,6 +25,7 @@ const TicketDates = ({ setSelectedDate, selectedDate }) => {
           key={index}
           className={`btn ${selectedDate === date.formattedDate ? "btn-primary" : "btn-outline-primary"}`}
           onClick={() => setSelectedDate(date.formattedDate)}
+          disabled={!customerId}
         >
           <span className="d-block fw-bold text-muted">{date.day}</span>
           <span className="d-block fw-bold fs-5">{date.date}</span>
