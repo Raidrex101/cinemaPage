@@ -15,12 +15,7 @@ const BuyTickets = () => {
   const movie = movies.find((movie) => movie._id === movieId);
   const movieFunction = movie?.rooms[0].functionTimes.find(
     (seats) => seats.time === selectedTime && seats.date === selectedDate
-  )
-  console.log('date', selectedDate)
-  console.log('time', selectedTime)
-  console.log("seats", selectedSeats)
-
-  //console.log("movie", movie)
+  );
 
   const availableTimes = selectedDate
     ? movie?.rooms?.flatMap((room) =>
@@ -42,10 +37,11 @@ const BuyTickets = () => {
             style={{ backgroundImage: `url(${movie.poster})` }}
           ></div>
 
-          <div className="position-relative z-3 d-flex align-items-center justify-content-center h-100 text-white">
+          <div className="position-relative d-flex align-items-center justify-content-center h-100 text-white">
             <div className="bg-white p-2 rounded-5 text-center text-dark h-75 mt-5 w-100 shadow">
               <div className="container mt-4">
-                <div className="row">
+                <div className="row align-items-start">
+                  {" "}
                   <div className="col-lg-8">
                     <div className="row align-items-center bg-secondary bg-opacity-25 border rounded-3">
                       <div className="col-auto ps-0">
@@ -80,6 +76,43 @@ const BuyTickets = () => {
                         selectedDate={selectedDate}
                       />
                     </div>
+
+                    {selectedDate && (
+                      <div className="mt-2 p-2 bg-light rounded-3">
+                        {" "}
+                        <h5>Available Showtimes</h5>
+                        <div className="d-flex align-items-center justify-content-center border-bottom -2 m-2">
+                          {availableTimes.length > 0 ? (
+                            availableTimes.map((schedule, index) => (
+                              <button
+                                key={index}
+                                value={schedule.time}
+                                className={`btn rounded-4 mx-2 ${
+                                  selectedTime === schedule.time
+                                    ? "btn-primary"
+                                    : "btn-outline-primary"
+                                }`}
+                                onClick={() => setSelectedTime(schedule.time)}
+                              >
+                                {schedule.time}
+                              </button>
+                            ))
+                          ) : (
+                            <p>No available showtimes for the selected date.</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {movieFunction ? (
+                      <div>
+                        {" "}
+                        <SeatSelector
+                          movieFunction={movieFunction}
+                          onSeatSelect={handleSeatSelection}
+                        />
+                      </div>
+                    ) : null}
                   </div>
 
                   <div className="col-lg-4">
@@ -89,41 +122,11 @@ const BuyTickets = () => {
                           selectedDate={selectedDate}
                           selectedTime={selectedTime}
                           selectedSeats={selectedSeats}
+                          movie={movie}
                         />
                       </div>
                     </div>
                   </div>
-                  {selectedDate && (
-                    <div className=" col-lg-8 mt-4 p-2 bg-light rounded-3">
-                      <h5>Available Showtimes</h5>
-                      <div className="d-flex align-items-center justify-content-center border-bottom -2 m-2">
-                        {availableTimes.length > 0 ? (
-                          availableTimes.map((schedule, index) => (
-                            <button
-                              key={index}
-                              value={schedule.time}
-                              className={`btn rounded-4 mx-2  ${
-                                selectedTime === schedule.time
-                                  ? "btn-primary"
-                                  : "btn-outline-primary"
-                              }`}
-                              onClick={() => setSelectedTime(schedule.time)}
-                            >
-                              {schedule.time}
-                            </button>
-                          ))
-                        ) : (
-                          <p>No available showtimes for the selected date.</p>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  {movieFunction ? (
-                    <SeatSelector
-                      movieFunction={movieFunction}
-                      onSeatSelect={handleSeatSelection}
-                    />
-                  ) : null}
                 </div>
               </div>
             </div>
