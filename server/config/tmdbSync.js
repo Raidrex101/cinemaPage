@@ -22,7 +22,7 @@ const syncGenresAndMovies = async () => {
     const syncedMovies = []
     // Getting Genres from TMDB
     const genreResponse = await axiosInstance.get('/genre/movie/list', {
-      params: { language: 'es-MX' }
+      params: { language: 'en-Us' }
     })
 
     const genres = genreResponse.data.genres
@@ -47,7 +47,7 @@ const syncGenresAndMovies = async () => {
 
     // Getting Movies now playing from TMDB
     const moviesResponse = await axiosInstance.get('/movie/now_playing', {
-      params: { language: 'es-MX', page: 1 }
+      params: { language: 'en-Us', page: 1 }
     })
     const movies = moviesResponse.data?.results || []
     if (!movies || movies.length === 0) {
@@ -60,11 +60,11 @@ const syncGenresAndMovies = async () => {
         const [movieDetails, movieCredits] = await Promise.all([
           axiosInstance.get(
             `/movie/${movie.id}`, {
-              params: { language: 'es-MX' }
+              params: { language: 'en-Us' }
             }),
           axiosInstance.get(
               `/movie/${movie.id}/credits`, {
-                params: { language: 'es-MX' }
+                params: { language: 'en-Us' }
               })
         ])
 
