@@ -1,7 +1,7 @@
 import Popcorn from "../assets/popcorn.png";
 import Soda from "../assets/soda.png";
 import Icee from "../assets/icee.png";
-import Hotdog from "../assets/hotdog.png";
+import HotDog from "../assets/hotDog.png";
 import Nachos from "../assets/nachos.png";
 import Water from "../assets/water.png";
 import { useState } from "react";
@@ -16,7 +16,7 @@ const FoodModal = ({ selectedFood, setSelectedFood, ticketData }) => {
     { name: "Popcorn", img: Popcorn, price: 10 },
     { name: "Soda", img: Soda, price: 15 },
     { name: "Icee", img: Icee, price: 20 },
-    { name: "Hotdog", img: Hotdog, price: 20 },
+    { name: "Hotdog", img: HotDog, price: 20 },
     { name: "Nachos", img: Nachos, price: 22 },
     { name: "Water", img: Water, price: 5 },
   ];
