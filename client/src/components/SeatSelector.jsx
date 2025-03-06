@@ -1,18 +1,19 @@
-import { useState } from 'react';
+import { useState } from "react"
 
 const SeatSelector = ({ movieFunction, onSeatSelect }) => {
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const occupiedSeats = movieFunction?.occupiedSeats ?? [];
+  const [selectedSeats, setSelectedSeats] = useState([])
+  const occupiedSeats = movieFunction?.occupiedSeats ?? []
+  const allSeats = movieFunction?.seats ?? []
 
   const seatSelection = (seat) => {
     if (occupiedSeats.includes(seat)) return;
 
     let updatedSeats = selectedSeats.includes(seat)
       ? selectedSeats.filter((s) => s !== seat)
-      : [...selectedSeats, seat];
+      : [...selectedSeats, seat]
 
-    setSelectedSeats(updatedSeats);
-    onSeatSelect(updatedSeats);
+    setSelectedSeats(updatedSeats)
+    onSeatSelect(updatedSeats)
   };
 
   return (
@@ -20,9 +21,9 @@ const SeatSelector = ({ movieFunction, onSeatSelect }) => {
       <h5>Available Seats</h5>
       <div className="d-flex align-items-center justify-content-center border-bottom">
         <div className="grid-container">
-          {(movieFunction?.seats || []).map((seat, index) => {
-            const occupied = occupiedSeats.includes(seat);
-            const selected = selectedSeats.includes(seat);
+          {allSeats.map((seat, index) => {
+            const occupied = occupiedSeats.includes(seat)
+            const selected = selectedSeats.includes(seat)
 
             return (
               <button
@@ -47,4 +48,4 @@ const SeatSelector = ({ movieFunction, onSeatSelect }) => {
   );
 };
 
-export default SeatSelector;
+export default SeatSelector
