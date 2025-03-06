@@ -8,7 +8,7 @@ import SeatSelector from "../components/SeatSelector";
 const BuyTickets = () => {
   const { movieId } = useParams();
   const { movies } = useContext(MovieContext);
-  const [cinemaName, setCinemaName] = useState("el cine placeholder");
+  const [cinemaName, setCinemaName] = useState("Placeholder cinema");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
