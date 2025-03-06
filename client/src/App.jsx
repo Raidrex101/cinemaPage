@@ -12,6 +12,7 @@ import { AuthProvider } from './context/authContext'
 import { MovieProvider } from './context/movieContext';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css'
+import MyTickets from "./pages/MyTickets";
 
 
 const MainLayout = () => {
@@ -34,6 +35,7 @@ function App() {
         { path: '/movie/:id', element: <MoviePage /> },
         { path: '/management', element: <Management /> },
         { path: '/buy-tickets/:movieId', element: <BuyTickets /> },
+        { path: '/my-tickets/:userId', element: <MyTickets />}
       ],
     },
     
