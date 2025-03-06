@@ -1,4 +1,4 @@
-const Checkout = () => {
+const Checkout = ({ ticketData }) => {
   return (
     <div>
   
@@ -86,6 +86,20 @@ const Checkout = () => {
           required=""
         />
         <div className="invalid-feedback">Security code required</div>
+      </div>
+      <div className="col-md-3">
+        <label htmlFor="cc-cvv" className="form-label">
+          Total
+        </label>
+        <input
+          type="text"
+          className="form-control fw-bold text-center"
+          id="cc-cvv"
+          placeholder={`$${ticketData.totalValue}`}
+          disabled
+        />
+        <div className="invalid-feedback">Security code required</div>
+        
       </div>
     </div>
   </form>
