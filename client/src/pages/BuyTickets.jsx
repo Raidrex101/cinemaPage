@@ -11,23 +11,25 @@ const BuyTickets = () => {
   const [cinemaName, setCinemaName] = useState("Placeholder cinema");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const movie = movies?.find((movie) => movie._id === movieId);
   const movieFunction = movie?.rooms
   .flatMap((room) => room.functionTimes)
-  .find((seats) => seats.time === selectedTime && seats.date === selectedDate
+  .find(
+    (seats) =>
+      seats.time === selectedSchedule?.time &&
+      seats.date === selectedDate &&
+      movie.rooms.some((room) => room._id === selectedSchedule?.roomId)
   );
 
-  console.log('movie function:', movieFunction);
-  console.log('movie', movie);
-  
-  
+  console.log("movie:", movie);
 
   const availableTimes = selectedDate
     ? movie?.rooms?.flatMap((room) =>
         room.functionTimes
           .filter((ft) => ft.date === selectedDate && ft.movie === movieId)
-          .map((ft) => ({ time: ft.time, room: room.name }))
+          .map((ft) => ({ time: ft.time, room: room.name, roomId: room._id }))
       ) || []
     : [];
 
@@ -75,7 +77,7 @@ const BuyTickets = () => {
                         ""
                       )}
                     </div>
-                      
+
                     <div className="mt-2">
                       <TicketDates
                         setSelectedDate={setSelectedDate}
@@ -85,7 +87,6 @@ const BuyTickets = () => {
 
                     {selectedDate && (
                       <div className="mt-2 p-2 bg-light rounded-3">
-                        {" "}
                         <h5>Available Showtimes</h5>
                         <div className="d-flex align-items-center justify-content-center border-bottom -2 m-2">
                           {availableTimes.length > 0 ? (
@@ -94,11 +95,18 @@ const BuyTickets = () => {
                                 key={index}
                                 value={schedule.time}
                                 className={`btn rounded-4 mx-2 ${
-                                  selectedTime === schedule.time
+                                  selectedSchedule?.time === schedule.time &&
+                                  selectedSchedule?.roomId === schedule.roomId
                                     ? "btn-primary"
                                     : "btn-outline-primary"
                                 }`}
-                                onClick={() => setSelectedTime(schedule.time)}
+                                onClick={() => {
+                                  setSelectedTime(schedule.time),
+                                    setSelectedSchedule({
+                                      time: schedule.time,
+                                      roomId: schedule.roomId,
+                                    });
+                                }}
                               >
                                 {schedule.time}
                               </button>
@@ -120,7 +128,6 @@ const BuyTickets = () => {
                       </div>
                     ) : null}
                   </div>
-
                   <div className="col-lg-4">
                     <div className="card shadow-sm">
                       <div className="card-body">
