@@ -12,15 +12,21 @@ const BuyTickets = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const movie = movies.find((movie) => movie._id === movieId);
-  const movieFunction = movie?.rooms[0].functionTimes.find(
-    (seats) => seats.time === selectedTime && seats.date === selectedDate
+  const movie = movies?.find((movie) => movie._id === movieId);
+  const movieFunction = movie?.rooms
+  .flatMap((room) => room.functionTimes)
+  .find((seats) => seats.time === selectedTime && seats.date === selectedDate
   );
+
+  console.log('movie function:', movieFunction);
+  console.log('movie', movie);
+  
+  
 
   const availableTimes = selectedDate
     ? movie?.rooms?.flatMap((room) =>
         room.functionTimes
-          .filter((ft) => ft.date === selectedDate)
+          .filter((ft) => ft.date === selectedDate && ft.movie === movieId)
           .map((ft) => ({ time: ft.time, room: room.name }))
       ) || []
     : [];
@@ -69,7 +75,7 @@ const BuyTickets = () => {
                         ""
                       )}
                     </div>
-
+                      
                     <div className="mt-2">
                       <TicketDates
                         setSelectedDate={setSelectedDate}
