@@ -6,10 +6,14 @@ import Nachos from "../assets/nachos.png";
 import Water from "../assets/water.png";
 import { useState } from "react";
 import Checkout from "./Checkout";
+import { useAuthContext } from "../hooks/useAuth";
+import { createTicket } from "../services/ticketServices";
+import { useNavigate } from "react-router-dom";
 
 const FoodModal = ({ selectedFood, setSelectedFood, ticketData }) => {
-  //console.log('ticket data', ticketData);
-
+  const navigate = useNavigate()
+  const { userPayload } = useAuthContext()
+  const userId = userPayload?._id
   const [step, setStep] = useState("food");
 
   const foodItems = [
@@ -23,30 +27,54 @@ const FoodModal = ({ selectedFood, setSelectedFood, ticketData }) => {
 
   const handleSelectFood = (foodName, foodPrice, action = "add") => {
     setSelectedFood((prev) => {
-      const currentQuantity = prev[foodName]?.quantity || 0;
-      let newQuantity = currentQuantity;
+      const currentQuantity = prev[foodName]?.quantity || 0
+      let newQuantity = currentQuantity
 
       if (action === "add") {
-        newQuantity += 1;
+        newQuantity += 1
       } else if (action === "remove" && newQuantity > 0) {
-        newQuantity -= 1;
+        newQuantity -= 1
       }
 
-      const updatedFood = { ...prev };
+      const updatedFood = { ...prev }
 
       if (newQuantity > 0) {
         updatedFood[foodName] = {
           quantity: newQuantity,
           price: foodPrice * newQuantity,
           name: foodName,
-        };
+        }
       } else {
-        delete updatedFood[foodName];
+        delete updatedFood[foodName]
       }
 
       return updatedFood;
-    });
-  };
+    })
+  }
+
+  const handleSubmit = async (ticketData) => {
+    if (!userPayload) {
+      console.error('user not logged in')
+      return
+    }
+
+    const token = localStorage.getItem('token')
+
+    if (!token) {
+      console.error('No token found')
+      return
+    }
+
+    try {
+      const response = await createTicket(ticketData, token)
+      if (response.status === 201) {
+        navigate(`/my-tickets/${userId}`)
+      }
+    } catch (error) {
+      console.error('Error creating ticket', error);
+      
+    }
+  }
 
   return (
     <div
@@ -172,7 +200,7 @@ const FoodModal = ({ selectedFood, setSelectedFood, ticketData }) => {
               />
             </div>
             <div className="modal-body">
-              <Checkout/>
+              <Checkout ticketData={ticketData}/>
 
             </div>
             <div className="modal-footer justify-content-center">
@@ -188,7 +216,8 @@ const FoodModal = ({ selectedFood, setSelectedFood, ticketData }) => {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={() => setStep("payment")}
+                data-bs-dismiss="modal"
+                onClick={() => {handleSubmit(ticketData)}}
               >
                 Pay
               </button>
