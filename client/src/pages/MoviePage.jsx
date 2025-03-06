@@ -8,6 +8,8 @@ const MoviePage = () => {
   const { movies } = useContext(MovieContext);
 
   const movie = movies.find((movie) => movie._id === id);
+  console.log('movie:', movie);
+  
 
   return (
     <>
