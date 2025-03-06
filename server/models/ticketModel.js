@@ -1,5 +1,20 @@
 import mongoose from 'mongoose'
 
+const foodSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  quantity: {
+    type: Number,
+    required: true
+  }
+})
+
 const ticketSchema = new mongoose.Schema({
   customerId: {
     type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
@@ -33,6 +48,7 @@ const ticketSchema = new mongoose.Schema({
   },
   seats: {
     type: [String],
+    required: true,
     validate: {
       validator: function (v) {
         return v.every(seat => /^[A-H]([1-9]|10)$/.test(seat))
@@ -40,10 +56,7 @@ const ticketSchema = new mongoose.Schema({
       message: props => `One or more seats that you requested: ${props.value.join(', ')} are not valid. Please use A1 to H10.`
     }
   },
-  food: {
-    type: [String],
-    default: []
-  }
+  food: [foodSchema]
 }, { timestamps: true, versionKey: false })
 
 const Ticket = mongoose.model('Ticket', ticketSchema)
