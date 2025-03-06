@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Nav = () => {
   const { autenticated, userPayload, logout } = useAuthContext();
+  const userId = userPayload?._id
   
   const navigate = useNavigate();
   return (
@@ -24,9 +25,11 @@ const Nav = () => {
             {autenticated ? (
               <>
                 <li className="nav-item">
-                  <a className="nav-link text-white fw-bold" href="#">
+                  <Link
+                  to={`/my-tickets/${userId}`}
+                  className="nav-link text-white fw-bold" href="#">
                     My tickets
-                  </a>
+                  </Link>
                 </li>
                 
                 <li className="nav-item">
