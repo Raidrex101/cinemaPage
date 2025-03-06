@@ -28,11 +28,7 @@ const Nav = () => {
                     My tickets
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link text-white fw-bold" href="#">
-                    Food
-                  </a>
-                </li>
+                
                 <li className="nav-item">
                   <a className="nav-link text-white fw-bold" href="#">
                     Promo
