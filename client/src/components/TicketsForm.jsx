@@ -39,7 +39,7 @@ const TicketsForm = ({ movie, selectedDate, selectedTime, selectedSeats }) => {
     seats: selectedSeats,
     food: Object.values(selectedFood),
   }
-
+  
   const isTicketValid = () => {
     return (
       ticketData.customerId &&
@@ -137,7 +137,16 @@ const TicketsForm = ({ movie, selectedDate, selectedTime, selectedSeats }) => {
           disabled
         />
       </div>
-      <button
+      {!customerId ? (
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => navigate("/login")}
+        >
+          Please Log in to buy
+        </button>
+      ): (
+        <button
         type="button"
         className="btn btn-primary"
         data-bs-toggle="modal"
@@ -146,15 +155,6 @@ const TicketsForm = ({ movie, selectedDate, selectedTime, selectedSeats }) => {
       >
         {isTicketValid() ? "Proceed to Payment" : "Proceed to Payment"}
       </button>
-
-      {!customerId && (
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => navigate("/login")}
-        >
-          Please Log in to buy
-        </button>
       )}
 
       <FoodModal
