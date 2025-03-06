@@ -35,11 +35,14 @@ const ticketSchema = new mongoose.Schema({
     type: [String],
     validate: {
       validator: function (v) {
-        // Regex para validar los asientos (A1 a H10)
         return v.every(seat => /^[A-H]([1-9]|10)$/.test(seat))
       },
       message: props => `One or more seats that you requested: ${props.value.join(', ')} are not valid. Please use A1 to H10.`
     }
+  },
+  food: {
+    type: [String],
+    default: []
   }
 }, { timestamps: true, versionKey: false })
 
