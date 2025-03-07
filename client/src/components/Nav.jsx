@@ -31,12 +31,6 @@ const Nav = () => {
                     My tickets
                   </Link>
                 </li>
-                
-                <li className="nav-item">
-                  <a className="nav-link text-white fw-bold" href="#">
-                    Promo
-                  </a>
-                </li>
                 {userPayload.role === "ADMIN" && (
                 <li className="nav-item">
                   <Link to="/management" className="nav-link text-white fw-bold">
