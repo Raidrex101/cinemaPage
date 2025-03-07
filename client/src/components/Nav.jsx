@@ -42,20 +42,7 @@ const Nav = () => {
               </>
             ) : (
               <>
-              <li className="nav-item">
-                  <Link
-                    to={"/food"}
-                    className="nav-link text-white fw-bold"
-                    
-                  >
-                    Food
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link text-white fw-bold mx-3">
-                    Promo
-                  </a>
-                </li>
+              
               </>
             )}
           </ul>
