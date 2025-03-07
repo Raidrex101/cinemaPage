@@ -43,7 +43,7 @@ const Carrousel = () => {
                 <p className="carouselp ctmtruncate">{movie.overview}</p>
                 <p>
                   <Link className="btn btn-lg btn-primary carouselbtn" to={`/movie/${movie._id}`}>
-                    Ver más
+                    See more
                   </Link>
                 </p>
               </div>
