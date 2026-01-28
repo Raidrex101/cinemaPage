@@ -34,7 +34,6 @@ const getAllRooms = async (req, res) => {
 // UPDATE
 
 const addFunctionTime = async (req, res) => {
-
   try {
     const { roomId, functionTime } = req.body
 
@@ -42,7 +41,7 @@ const addFunctionTime = async (req, res) => {
       return res.status(400).json({ message: 'Missing roomId or functionTime' })
     }
 
-    const { movie, seats, ocupiedSeats, time, date } = functionTime
+    const { movie, seats, occupiedSeats, time, date } = functionTime
 
     if (!movie || !time || !seats || !date) {
       return res.status(400).json({ message: 'Incomplete functionTime data' })
@@ -68,7 +67,7 @@ const addFunctionTime = async (req, res) => {
       date,
       movie,
       seats,
-      ocupiedSeats
+      occupiedSeats
     })
 
     await room.save()
@@ -98,8 +97,8 @@ const manageIsActive = async (req, res) => {
     }
 
     if (room.isActive) {
-      const hasOccipiedSeats = room.functionTimes.some(ft => ft.occupiedSeats.kength > 0)
-      if (hasOccipiedSeats) {
+      const hasOccupiedSeats = room.functionTimes.some(ft => (ft.occupiedSeats || ft.ocupiedSeats || []).length > 0)
+      if (hasOccupiedSeats) {
         return res.status(400).json({ message: 'Cannot deactivate a room with occupied seats' })
       }
 

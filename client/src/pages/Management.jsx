@@ -26,7 +26,7 @@ const Management = () => {
 
   useEffect(() => {
     getAllRooms();
-  }, []);
+  }, [getAllRooms]);
 
   const activeOrInactiveRoom = async (roomId) => {
     if (userPayload.role !== "ADMIN") {

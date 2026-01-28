@@ -11,21 +11,68 @@ const createTicket = async (req, res) => {
       return res.status(404).json({ message: 'Room not found' })
     }
 
-    const functionTimeEntry = room.functionTimes.find(
-      (func) => func.date === functionDate && func.time === functionTime && func.movie.toString() === movieId
-    )
+    // Normalize incoming functionDate and stored functionTimes.date to ISO (YYYY-MM-DD)
+    const normalizeToISODate = (date) => {
+      if (!date) return null
+      if (date instanceof Date) return date.toISOString().split('T')[0]
+      if (typeof date !== 'string') return null
+      // already ISO
+      if (/^\d{4}-\d{2}-\d{2}$/.test(date)) return date
+      // common slash formats like D/M/YYYY or M/D/YYYY
+      const slashMatch = date.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
+      if (slashMatch) {
+        const a = parseInt(slashMatch[1], 10)
+        const b = parseInt(slashMatch[2], 10)
+        const y = parseInt(slashMatch[3], 10)
+        // if first part > 12 assume day-first (D/M/YYYY)
+        let day, month
+        if (a > 12) {
+          day = a
+          month = b
+        } else {
+          // prefer day-first if day <= 31 and month <=12 but many locales use day-first
+          // choose month=b, day=a (M/D/YYYY) only if a <= 12 and b > 12 (rare)
+          if (b > 12) {
+            day = a
+            month = b
+          } else {
+            // default to day-first
+            day = a
+            month = b
+          }
+        }
+        const dt = new Date(y, month - 1, day)
+        if (!isNaN(dt)) return dt.toISOString().split('T')[0]
+        return null
+      }
+      // fallback: attempt Date.parse
+      const parsed = new Date(date)
+      if (!isNaN(parsed)) return parsed.toISOString().split('T')[0]
+      return null
+    }
+
+    const incomingISO = normalizeToISODate(functionDate)
+
+    const functionTimeEntry = room.functionTimes.find((func) => {
+      const storedISO = normalizeToISODate(func.date)
+      return storedISO === incomingISO && func.time === functionTime && func.movie.toString() === movieId
+    })
 
     if (!functionTimeEntry) {
       return res.status(404).json({ message: 'Function time not found in this room' })
     }
 
-    const alreadyOccupied = seats.some((seat) => functionTimeEntry.occupiedSeats.includes(seat))
+    const occupiedSeatsArr = functionTimeEntry.occupiedSeats || functionTimeEntry.ocupiedSeats || []
+
+    const alreadyOccupied = seats.some((seat) => occupiedSeatsArr.includes(seat))
     if (alreadyOccupied) {
       return res.status(400).json({ message: 'One or more selected seats are already occupied' })
     }
 
-    functionTimeEntry.seats = functionTimeEntry.seats.filter((seat) => !seats.includes(seat))
+    functionTimeEntry.seats = (functionTimeEntry.seats || []).filter((seat) => !seats.includes(seat))
 
+    // ensure occupiedSeats exists on the subdocument and push
+    if (!functionTimeEntry.occupiedSeats) functionTimeEntry.occupiedSeats = occupiedSeatsArr
     functionTimeEntry.occupiedSeats.push(...seats)
 
     await room.save()

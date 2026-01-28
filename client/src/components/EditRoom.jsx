@@ -5,7 +5,7 @@ import { generateDates } from "../utils/dateUtils";
 
 const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
   const { userPayload } = useAuthContext();
-  const dates = generateDates().map((date) => date.formattedDate)
+  const dates = generateDates()
 
   const times = [
     "10:00",
@@ -101,10 +101,10 @@ const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
 
       const functionTime = {
         movie: movie._id,
-        date: data.date,
+        date: data.date, // ISO date (YYYY-MM-DD)
         time: selectedTime,
         seats: [...seatsTemplate],
-        ocupiedSeats: [],
+        occupiedSeats: [],
       };
 
       const roomData = {
@@ -127,7 +127,6 @@ const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
           return updatedRooms;
         });
         getAllRooms();
-        document.getElementById("close-modal").click();
       }
     } catch (error) {
       console.error("Error editing room:", error);
@@ -210,17 +209,11 @@ const EditRoom = ({ rooms, movies, setRooms, getAllRooms }) => {
                 <label htmlFor="date-select" className="form-label p-2 fw-bold">
                   Avilable dates:
                 </label>
-                <select
-                 name="date"
-                id="dates"
-                {...register("date", { required: true })}>
-                  <option disabled="disabled" selected="true">
-                    {" "}
-                    Date
-                  </option>
+                <select name="date" id="dates" {...register("date", { required: true })}>
+                  <option disabled value="">Date</option>
                   {dates?.map((date, index) => (
-                    <option key={index} value={date}>
-                      {date}
+                    <option key={index} value={date.iso}>
+                      {date.formattedDate}
                     </option>
                   ))}
                 </select>
